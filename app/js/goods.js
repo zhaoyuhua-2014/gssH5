@@ -320,10 +320,10 @@ $(document).ready(function(){
 			var $ele=$(".moreDoogs_main_box_left li").eq(n);
 			pub.goodsTypecode=$ele.attr("two_list_data"+n);
 			$ele.addClass("true");
-			if ($ele.get(0).offsetTop>200) {
-				$('.moreDoogs_main_box_left_wrap').scrollTop($ele.get(0).offsetTop-200)
+			if ($ele.get(0).offsetTop > 200) {
+				$('.moreDoogs_main_box_left_wrap').animate({scrollTop: $ele.get(0).offsetTop-200},800)
 			}else{
-				$('.moreDoogs_main_box_left_wrap').scrollTop(0)
+				$('.moreDoogs_main_box_left_wrap').animate({scrollTop:0},800)
 			}
 			pub.moregoods.goodsapi($ele);
 		},
@@ -337,8 +337,14 @@ $(document).ready(function(){
 			var html2='',v = data.data.objects,goodnum;
 			moregood_data=sessionStorage.setItem('moregood_data',JSON.stringify(data));
 			for (var i in v) {
-				html2 +='<li><dl class="moreGoods_goods_detaile clearfloat" data="'+v[i].id+'" dataName="'+v[i].goodsName+'" dataPir="'+v[i].wholeGssPrice+'" wholePriceSize="'+v[i].wholePriceSize+'" gssPrice="'+v[i].gssPrice+'" priceUnit="'+v[i].priceUnit+'" packageNum="'+(parseInt(v[i].initNum) - parseInt(v[i].saleNum))+'" maxCount="'+v[i].maxCount+'" bussinessType="'+v[i].bussinessType+'" score="'+v[i].score+'" >'
-				html2 +='<dt><img src="'+v[i].goodsLogo+'"/></dt>'
+				html2 +='<li><dl class="moreGoods_goods_detaile clearfloat" data="'+v[i].id+'" dataName="'+v[i].goodsName+'" dataPir="'+v[i].wholeGssPrice+'" wholePriceSize="'+v[i].wholePriceSize+'" gssPrice="'+v[i].gssPrice+'" priceUnit="'+v[i].priceUnit+'" packageNum="'+(parseInt(v[i].initNum) - parseInt(v[i].saleNum))+'" maxCount="'+v[i].maxCount+'" bussinessType="'+v[i].bussinessType+'" score="'+v[i].score+'">'
+				html2 +='<dt class="common_icon">'
+				//水果险图标 添加
+				if(v[i].hasInsurance){
+					html2 +='<span class ="icon_xian"></span>'
+				}
+				
+				html2 +='<img src="'+v[i].goodsLogo+'"/></dt>' //加入水果险图标
 				html2 +='<dd>'		
 				html2 +='<h3 class="moreGoods_goods_name">'+v[i].goodsName+'</h3>'
 				html2 +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'
@@ -405,9 +411,9 @@ $(document).ready(function(){
 						pub.moregoods.two_list($(this).data());
 					}
 					if ($(this).get(0).offsetLeft > 200) {
-						$('.moreDoogs_main_top').scrollLeft($(this).get(0).offsetLeft-200)
+						$('.moreDoogs_main_top').animate({scrollLeft: $(this).get(0).offsetLeft-200},800)
 					}else{
-						$('.moreDoogs_main_top').scrollLeft(0)
+						$('.moreDoogs_main_top').animate({scrollLeft:0},800)
 					}
 				}
 			});
@@ -423,10 +429,10 @@ $(document).ready(function(){
 					}else{
 						pub.moregoods.goods_show($(this).data());
 					}
-					if ($(this).get(0).offsetTop>200) {
-						$('.moreDoogs_main_box_left_wrap').scrollTop($(this).get(0).offsetTop-200)
+					if ($(this).get(0).offsetTop > 200) {
+						$('.moreDoogs_main_box_left_wrap').animate({scrollTop: $(this).get(0).offsetTop-200},800)
 					}else{
-						$('.moreDoogs_main_box_left_wrap').scrollTop(0)
+						$('.moreDoogs_main_box_left_wrap').animate({scrollTop:0},800)
 					}
 				}
 			});
@@ -449,6 +455,8 @@ $(document).ready(function(){
 				goodType = ele.attr('goodType'),
 				goodscore = ele.attr('score'),
 				goodnum=callbackgoodsnumber(id);
+			
+				
 				//先判断库存和限购  在执行加操作
 				if (goodnum < packageNum) {
 					if(maxCount > 0){
@@ -509,7 +517,7 @@ $(document).ready(function(){
 		api:function(){
 			common.ajaxPost({
 				//goods_get_by_id_two  goods_get_by_id
-				method:"goods_get_by_id_two",
+				method:"goods_get_by_id_thr",
 				goodsId:pub.goodsId,
 				userId:pub.userId
 			},function(data){
@@ -566,7 +574,7 @@ $(document).ready(function(){
 		},
 		good_banner_show:function(data){
 			//展示商品图片
-			var arr1=data.data.goodsPics.split('@');
+			var arr1=data.data.goodsInfo.goodsPics.split('@');
 			//var isVideo = (arr1[0].indexOf(".mp4") != -1)
 			var isVideo = (arr1[0].indexOf(".mp4") != -1);
 			if (isVideo) {
@@ -729,7 +737,8 @@ $(document).ready(function(){
 			
 		},
 		good_info_show:function(data){
-			var v = data.data;
+			var v = data.data.goodsInfo;
+			var v1 = data.data.fruitInsurance;
 			//展示商品信息1111111111111
 			pub.html = ''
 			pub.html +='<h3 class="goodsDetails_box1_title">'+v.goodsName+'</h3>'
@@ -749,7 +758,8 @@ $(document).ready(function(){
 				}
 			pub.html +='</div>'
 			$(".goodsDetails_box1_top").append(pub.html);
-			pub.html = ''
+			pub.html = '';
+			html="";
 			//商品信息展示222222222222222222222222222222222222222
 			pub.html+='<div class="goodsDetails_text">'+v.goodsShows+'</div>'
 			pub.html+='<div class="moreGoods_goods_number clearfloat">'
@@ -769,6 +779,15 @@ $(document).ready(function(){
 						pub.html+='	<span><div class="goodsNumber_max sprite btn_a"></div></span>'*/
 					}
 			pub.html+='</div>'
+			if(v.hasInsurance){
+				for(i in v1){
+					html +='<div class="fruit_risk">'
+					html +='		 <p class="icon_xian" id="'+v1[i].id+'"><i>'+v1[i].name+'</i>'+v1[i].money+'/1件商品</p>'
+					html +='		 <p>'+ v1[i].desc +'</p>'
+					html +='</div>'
+				}
+			}
+			$(".goodsDetails_fruit_risk").append(html)
 			$('.goodsDetails_box1_center_li1').append(pub.html);
 			//商品信息展示333333333333333333333333333333333333333333333333
 			if (!pub.logined) {
@@ -785,6 +804,7 @@ $(document).ready(function(){
 				$(".goodsDetails_Unit_Price").html("单价：<span class='color_f27c32'>"+v.gssPrice+"</span>元/"+v.priceUnit);
 				$(".goodsDetails_Total_Price").html("总价："+v.wholeGssPrice+"元/"+v.wholePriceSize);				
 			}
+			
 			$('.goodsDetails_kucun').addClass("hidden");
 			$(".goodsDetails_Place").html("产地："+v.sourceCityName);
 			$(".goodsDetails_Standrd").html("规格："+v.sizeDesc);
@@ -800,6 +820,7 @@ $(document).ready(function(){
 					return;
 				}
 				var d = $(this).parent().data('data');
+				console.log(d)
 				var id=d.id,name=d.goodsName;
 				/*件价和件价的单位*/
 				var price=d.wholeGssPrice,wholePriceSize=d.wholePriceSize;
@@ -810,8 +831,9 @@ $(document).ready(function(){
 				
 				var goodType = d.bussinessType;
 				var goodscore = d.score;
-				
+			
 				pub.goodnum = callbackgoodsnumber(id)
+				
 				//先判断库存和限购  在执行加操作
 				if (pub.goodnum<packageNum) {
 					if(maxCount >0){
@@ -1099,6 +1121,7 @@ $(document).ready(function(){
 				maxCount=$(this).parent().parent().attr('maxCount');
 				
 				
+				
 				//获取本地购物车中该商品数据
 				goodnum=callbackgoodsnumber(id);
 				
@@ -1175,3 +1198,4 @@ $(document).ready(function(){
 		pub.init();
 	}
 })
+

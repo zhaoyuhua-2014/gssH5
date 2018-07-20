@@ -13,11 +13,21 @@ $(document).ready(function(){
 		
 	});
 	if (pub.page == 2) {
+		
 		pub.address = JSON.parse(sessionStorage.address);
-		pub.addressId = JSON.parse(sessionStorage.address).address.id;
-		pub.postCost = JSON.parse(sessionStorage.address).postCost;
+		pub.addressId = JSON.parse(sessionStorage.address).id;
+		pub.postCost = JSON.parse(sessionStorage.postCost);
 		pub.goodsList = goodlist1();
-		pub.good_detail = goodlist2();
+		pub.good_detail = JSON.parse(sessionStorage.ods);
+		
+		pub.goodsList1 =JSON.parse(pub.goodsList).goodsList.map(function(i){
+							i["sgx"] =[];
+							return i;	
+			});
+		pub.goodsList2 = {goodsList:pub.goodsList1};
+		pub.p = parseFloat(getgoodsMoney())+parseInt(pub.postCost);
+		console.log(pub.goodsList2 )
+		console.log(pub.p)
 	} else if(pub.page == 1){
 		pub.orderResult = JSON.parse(sessionStorage.getItem("orderResult"));
 		pub.system = JSON.parse(sessionStorage.getItem('system'));
@@ -64,11 +74,11 @@ $(document).ready(function(){
 		},
 		address:function(){
 			var $ele = $(".my_infor");
-			if (!pub.address.address.receiverName){
+			if (!pub.address.receiverName){
 				var div=$("<div>点击此处选择地址</div>").css({'line-height':'110px','text-align':'center','font-size':'36px'})
 				$ele.find('.my_info_top').addClass("hidden").end().find("p").addClass("hidden").end().append(div);
 			}else{
-				var v = pub.address.address;
+				var v = pub.address;
 				$ele.attr('addId',v.id).find('.my_name').html(v.receiverName).end().find('.my_phoneNumber').html(v.receiverMobile).end().find('.my_address').html(v.allAddr);
 			}
 		},
@@ -77,27 +87,43 @@ $(document).ready(function(){
 			for (var i in v) {
 				html +='<li>'
 				html +='	<div class="order_goods_top clearfloat">'
-				html +='		<b class="goods_name">'+v[i].name+'</b>'
-				html +='		<span class="goods_num">X'+v[i].sum+'</span>'
+				html +='		<b class="goods_name">'+v[i].goodsName+'</b>'
+				html +='		<span class="goods_num">X'+v[i].buyCount+'</span>'	
 				html +='	</div>'
+				html +='<p class="color_666">'+v[i].goodsShows+'</p>'
 				html +='	<div class="order_goods_bottom clearfloat">'
 				html +='		<p class="goods_Price">'
-				html +='			<span>'+v[i].gssPrice+'</span>元/'+v[i].priceUnit+'&nbsp;&nbsp;<span>'+v[i].price+'</span>元/'+v[i].wholePriceSize+''
+				html +='			<span>'+v[i].gssPrice+'</span>元/'+v[i].priceUnit+'&nbsp;&nbsp;<span>'+v[i].wholeGssPrice+'</span>元/'+v[i].wholePriceSize+''
 				html +='		</p>'
-				html +='		<span class="goods_subtotal">合计：￥'+(parseFloat(v[i].price)*parseInt(v[i].sum)).toFixed(2)+'</span>'
+				html +='		<span class="goods_subtotal">总价：￥'+(parseFloat(v[i].gssPrice)*parseInt(v[i].buyCount)).toFixed(2)+'</span>'
 				html +='	</div>'
+				//水果险图标 添加
+				if(v[i].fis.length != 0){
+					var x = v[i].fis
+					for(var a in x){
+						html += '<div class="fruit_risk clearfloat" data="'+v[i].goodsId+'">'
+						html +=	'	<p  class="icon_xian">'+x[a].name+'<img class="tips" data-name="'+x[a].name+'" data-desc="'+x[a].desc+'" src="../img/tips.png" /><span class="color_666">'+x[a].money+'元 x'+v[i].buyCount+'=<span class="sgx_price">'+(parseFloat(x[a].money)*parseInt(v[i].buyCount)) +'</span>元</span></p>'
+						html +=	'	<span data="'+x[a].id+'" price="'+(parseFloat(x[a].money)*parseInt(v[i].buyCount))+'"></span>'
+						html += '</div>'
+					}
+				}
 				html +='</li>'
 			}
+			
 			$('.order_goods_box').append(html);
-			$('.logistic .logistic_price').html(pub.address.postCost+'元');
-			$('.order_footer_left span').html('￥'+getgoodsMoney());
+			$('.logistic .logistic_price').html(pub.postCost+'元');
+			$('.order_footer_left span').html('￥'+pub.p);
+			console.log(parseFloat(getgoodsMoney()))
+			console.log(parseInt(pub.postCost))
+				
+			
 		},
 		orderSubmit:function(){
 			common.ajaxPost({
-				method:'order_submit',
+				method:'order_submit_two',
 				userId:pub.userId,
 				firmId:pub.firmId,
-				goodsList:pub.goodsList,
+				goodsList:JSON.stringify(pub.goodsList2),
 				customRequest:pub.customRequest,
 				addressId:pub.addressId,
 				postCost:pub.postCost,
@@ -121,6 +147,7 @@ $(document).ready(function(){
 					common.prompt(data.statusStr);
 				}
 			})
+			
 		},
 	}
 	pub.settlement.eventHeadle = {
@@ -159,7 +186,47 @@ $(document).ready(function(){
 					common.jump("../html/index.html");
 				}
 			})
-			
+			$(".order_goods_box").on("click",".tips",function(){
+				var obj = {
+					data:{
+						title:$(this).attr("data-name"),
+						desc:$(this).attr("data-desc")
+					}
+				}
+				common.alert_show(obj)
+			})
+			$(".order_goods_box").on("click",".fruit_risk > span ",function(){
+				var id = parseInt($(this).attr("data"))
+				var pId =	parseInt($(this).parents(".fruit_risk").attr("data"));
+				var price = parseInt($(this).attr("price"));
+				$(this).toggleClass("sel");
+				if($(this).hasClass("sel")){
+						sgx(pId,id,price,true)
+				}else{
+						sgx(pId,id,price,false)
+				}
+				$('.order_footer_left span').html('￥'+pub.p);
+			})
+			//加减水果险用
+			function sgx(a,b,c,boolean){
+				var list =  pub.goodsList1;
+					for(var i in list){
+						if(list[i].goodsId == a){
+							if(boolean){
+								list[i].sgx.push(b);
+								pub.p += c;
+								break;
+							}else{
+								var e = list[i].sgx.indexOf(b); 
+								if(e != -1){
+									list[i].sgx.splice(e,1)
+									pub.p -= c;
+									break;
+								}
+							}
+						}
+					}
+				}
 			$(window).load(function(){
 				common.jsadd()
 			});

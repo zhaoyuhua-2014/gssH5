@@ -1,8 +1,10 @@
 //请求地址公用 获取tokenId公用
 var common={
-	http:"http://app.guoss.cn/gss_api/server/api.do", // 正式
-	//http:"http://app.guoss.cn/gss_api/server/api.do", // 正式
-	//http:"http://app.guoss.cn/gss_api/server/api.do", // 正式
+
+	http:"http://61.164.113.187:8090/gssapi/server/api.do", // 测试
+	//http:"http://61.164.113.187:8090/gssapi/server/api.do", // 测试
+	//http:"http://61.164.113.187:8090/gssapi/server/api.do", // 测试
+
 	websiteNode:'3301',//请求的站点
 	pageSize:'10',//请求商品每页的个数
 	pageNo:'1',
@@ -31,7 +33,7 @@ var common={
 		'3302':'宁波站'
 	},
 	httpData:{
-		"3301":"http://wxhz.guoss.cn/html/login.html", // 正式
+		"3301":"http://testh5.guoss.cn/html/login.html", // 测试
 		"3201":"http://wxnj.guoss.cn/html/login.html",
 		"3302":"http://wxnb.guoss.cn/html/login.html"
 	},
@@ -234,7 +236,7 @@ var common={
 			url:common.http,
 	        dataType:"jsonp",
 	        data:{
-				method:'settlement_shop_cart',
+				method:'settlement_shop_cart_two',
 				goodsList:goodsList,
 				firmId:firmId,
 				tokenId:common.tokenId(),
@@ -243,8 +245,11 @@ var common={
 			},
 			success:function(data){
 				if (data.statusCode=='100000') {
-					sessionStorage.setItem('address',JSON.stringify(data.data));
-					sessionStorage.setItem("sta",sta)
+					sessionStorage.setItem('address',JSON.stringify(data.data.address));
+					sessionStorage.setItem("ods",JSON.stringify(data.data.ods));
+					sessionStorage.setItem("sta",sta);
+					sessionStorage.setItem("postCost",JSON.stringify(data.data.postCost));
+					
 					window.location.href='order_settlement.html?v=0.1';
 				}else if (data.statusCode=='100903' || data.statusCode=='100907') {
 					var orderResult={

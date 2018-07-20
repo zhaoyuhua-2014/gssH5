@@ -223,7 +223,11 @@ $(document).ready(function(){
 					o = v[i].activityDetailsList[j].goodsInfo;
 					if (o) {
 						html +='<dl data="'+o.id+'">'
-						html +='	<dt><img src="'+o.goodsLogo+'"/></dt>'
+						html +='	<dt class="common_icon">'
+						if(o.hasInsurance){
+							html +='<span class ="icon_xian"></span>' //加入水果险图标
+						}
+						html +=' <img src="'+o.goodsLogo+'"/></dt>'
 						html +='	<dd>'+o.goodsName+'</dd>'
 						html +='	<dd class="clearfloat">'
 							if (parseInt(o.setupTags)!='0') {

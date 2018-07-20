@@ -318,7 +318,7 @@ $(document).ready(function(){
 				method:pub.method[0][pub.page],
 				orderCode:pub.orderCode
 			}),function(data){
-				console.log(JSON.stringify(data))
+//				console.log(JSON.stringify(data))
 				if (data.statusCode=='100000'){
 					pub.orderDetails.order_details_show(data);
 				} else{
@@ -351,7 +351,7 @@ $(document).ready(function(){
 					};
 					sessionStorage.setItem('order_pay',JSON.stringify(order))
 					common.jump("order_pay.html");
-					/*window.location.href='order_pay.html?v=0.1';*/
+//					window.location.href='order_pay.html?v=0.1';
 				} else{
 					common.prompt(data.statusStr)
 				}
@@ -381,7 +381,7 @@ $(document).ready(function(){
 				html+='<li>'
 				html+='	<dl class="clearfloat">'
 				html+='		<dt class="goodName">'+o[i].goodsName+'</dt>'
-				html+='		<dd><span class="color_f27c32">'+o[i].gssPrice+'</span>元/'+o[i].priceUnit+'&nbsp;&nbsp;<span class="color_f27c32">'+o[i].wholeGssPrice+'</span>元/'+o[i].wholePriceSize+'</dd>'
+				html+='		<dd><span class="color_f27c32">'+o[i].gssPrice+'</span>元/'+o[i].priceUnit+'&nbsp;&nbsp;<span class="color_f27c32">'+o[i].wholeGssPrice+'</span>元/'+o[i]. priceUnit+'</dd>'
 				html+='		<dd class="order_details_goods_right">X'+o[i].buyCount+'</dd>'
 				html+='	</dl>'
 				html+='	<dl class="clearfloat">'
@@ -389,6 +389,16 @@ $(document).ready(function(){
 				html+='		<dd>'+o[i].goodsWholeCount+'x'+o[i].buyCount+'='+parseFloat(o[i].buyCount)*parseFloat(o[i].goodsWholeCount)+''+o[i].priceUnit+'</dd>'
 				html+='		<dd class="order_details_goods_right">总价:'+o[i].costMoney+'元</dd>'
 				html+='	</dl>'
+				if(o[i].fis.length != 0){
+					var x = o[i].fis
+					for(var a in x ){
+						html+=' <dl class="clearfloat">'
+						html+='		<dt>'+x[a].desc+':</dt>'
+						html+='		<dd>'+x[a].money+'元 x'+x[a].buyCount +'</dd>'
+						html+='		<dd class="order_details_goods_right color_e00d37">'+parseInt(x[a].money)*parseInt(x[a].buyCount)+'元</dd>'
+						html+='</dl>'
+					}
+				}
 				if ((v.orderStatus=='3'||v.orderStatus=='4')) {
 					html+='	<div class="order_details_goods_ clearfloat">'
 					html+='		<dl class="odg_left clearfloat">'
@@ -472,7 +482,7 @@ $(document).ready(function(){
 			//运费金额
 			$('.order_details_distribution').removeClass("hidden");
 			
-			$('.order_details_money dl dd').html('<span class="color_f27c32">'+v.orderMoney+'</span>元');
+			$('.order_details_money dl dd').html('<span class="color_f27c32">'+(parseFloat(v.orderMoney)+(parseInt(x[a].money)*parseInt(x[a].buyCount))).toFixed(2)+'</span>元');
 			$('.order_details_make').removeClass("hidden")
 			var $odmdd = $('.order_details_money_details dl');
 			//订单的金额

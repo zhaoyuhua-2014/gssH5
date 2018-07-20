@@ -54,8 +54,13 @@ $(document).ready(function(){
 			}
 			var html='';
 			for (var i in v) {
-				html +='<dl class="clearfloat" data="'+v[i].id+'">'
-				html +='<dt><img src="'+v[i].goodsLogo+'"/></dt>'
+				html +='<dl class="clearfloat " data="'+v[i].id+'">'
+				html +='<dt class="common_icon">'
+				//添加水果险 图标
+				if(v[i].hasInsurance){
+					html +='<span class ="icon_xian"></span>'
+				}
+				html +='	<img src="'+v[i].goodsLogo+'"/></dt>'
 				html +='<dd>'
 				html +='<h3 class="moreGoods_goods_name">'+v[i].goodsName+'</h3>'
 				html +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'

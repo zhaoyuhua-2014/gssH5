@@ -8,7 +8,7 @@ html,body{margin: 0;padding: 0;height: 100%;width: 100%;background: #E5E5E5;}
 .footer-wrap{max-width: 750px;width: 100%;margin: 0 auto;height: 98px;background: #FFFFFF;position: fixed;border-top: 1px solid #bababa;left: 0;bottom: 0;z-index: 6;}
 /*首页和我的页面公用底部*/
 .footer1{width:100%;position:relative;display:flex}
-.footer1 dl{flex:1;height:98px;text-align:center;padding-top:10px;font-size:24px;color:#f76A10}
+.footer1 dl{flex:1;height:98px;text-align:center;padding-top:10px;font-size:24px;color:#f76A10;}
 .footer1 dl dt{height: 48px;}
 .footer1 dl dd{line-height:40px;}
 /*公用callback*/
@@ -1329,9 +1329,41 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,.3);
-    z-index: 898
+    z-index: 898;
 }
 
 .mod_alert.show,.mod_alert_mask.show {
-    display: block
+    display: block;
 }
+/*2018_7_12*/
+/*颜色修改*/
+.footer1 dl{flex:1;height:98px;text-align:center;padding-top:10px;font-size:24px;color:#999;}
+.color_e00d37{color:#e00d37;}
+.color_666{color:#666;}
+/*添加水果险图标*/
+.center_goodes dt,
+.moreGoods_goods_detaile dt{position: relative;}
+.common_icon .icon_xian{display:inline-block;position: absolute;width:40px;height:40px;}
+.center_goodes .icon_xian{left:40px;bottom:20px;} 
+.moreGoods_goods_detaile  .icon_xian {left:10px;bottom:30px;}
+.icon_xian{background:url("../img/Fruit risk@2x.png") no-repeat left center;}
+
+/*goodsDetails 添加水果险*/
+.goodsDetails_fruit_risk{margin:34px 0;background-color: #fff;}
+.goodsDetails_fruit_risk .fruit_risk{width:100%;padding:24px 28px;}
+.goodsDetails_fruit_risk .fruit_risk + .fruit_risk{border-top:1px solid #666;}
+.goodsDetails_fruit_risk p:first-child{font-size: 28px;margin-bottom:20px;color:#666;text-indent: 50px;}
+.goodsDetails_fruit_risk p i{margin:0 30px 0 0;font-style:normal;color:#535353;}
+.goodsDetails_fruit_risk p:last-child{font-size: 24px;color:#999;}
+/*order_settlement 添加水果险*/
+.order_goods_box li{padding:15px 24px;font-size:24px;}
+.order_goods_box .fruit_risk{margin-top:20px;}
+.order_goods_box .fruit_risk span img{width:40px;height:40px; }
+.order_goods_box .fruit_risk  .icon_xian{float: left;height:40px;line-height: 40px; font-size:24px;text-indent: 50px;color:#000;}
+.order_goods_box .fruit_risk > span{float: right;width:40px;height:40px; background: url("../img/ellipse1@2x.png") no-repeat center center;}
+.order_goods_box .fruit_risk .sel{ background-image: url("../img/select@2x@2x.png")}
+.order_goods_top{height:50px;line-height: 50px;}
+.order_goods_bottom{margin-top: 30px;}
+.order_goods_box .fruit_risk img{margin:0 30px 6px 10px;}
+.search_goods .common_icon{position: relative;}
+.search_goods .icon_xian{bottom:20px;left:20px;}
