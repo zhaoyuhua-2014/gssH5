@@ -269,12 +269,12 @@ $(document).ready(function(){
 			});
 			$('.address_main').on('click',"li",function(){
 				if ($(this).is(".true")) {
-					var obj= {
-						'address':JSON.parse($(this).attr("data")),
+					/*var obj= {
+						'address':JSON.parse(),
 						'postCost':JSON.parse(sessionStorage.getItem('address')).postCost
 					};
-					var str=JSON.stringify(obj)
-					sessionStorage.setItem('address',str);
+					var str=JSON.stringify(obj)*/
+					sessionStorage.setItem('address',$(this).attr("data"));
 					sessionStorage.removeItem("ISaddress");
 					/*common.jump("order_settlement.html")*/
 					window.location.href = "order_settlement.html?v=0.2";
