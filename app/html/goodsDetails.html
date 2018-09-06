@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=750,user-scalable=no"/>
     	<meta content="telephone=no, address=no" name="format-detection" />
     	<link rel="icon" href="../img/gss.ico" type="image/x-icon">
+    	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' http://app.guoss.cn/gss_api/server/api.do http://61.164.113.187:8090/gssapi/server/api.do; style-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
 		<!-- build:css ../css/common.css -->
 	    <link rel="stylesheet" type="text/css" href="../css/rest.css"/>
 	    <link rel="stylesheet" type="text/css" href="../css/base.css?v=0619"/>
@@ -89,6 +90,18 @@
 					</div>
 					
 				</div>
+			</div>
+		</div>
+		
+		<!--输入框添加-->
+		<div class="input_mask" style="display:none;" >
+			<div class="wrap">
+				<input  class="number" type="tel"  maxlength="4"   placeholder="请输入数量" pattern="[0-9]*"/>
+				<p></p>
+				<div class="clearfloat">
+					<span class="mask_left">取消</span><span class="mask_right">确定</span>
+				</div>
+				
 			</div>
 		</div>
 		<div class="my_bg hidden"></div>

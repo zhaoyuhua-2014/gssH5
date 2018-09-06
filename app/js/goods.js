@@ -44,7 +44,7 @@ $(document).ready(function(){
 			$('.footer-left').addClass("sprite icon_shoppingcar").html("购物车是空的")
 			$('.footer-rigth').html('还差￥'+( how_money - money )).css({'background':'#494848','color':'#FFF'})
 		} else{
-			$('#gw_car').removeClass("hidden").find('.gw_car_num').html(goodnum)
+			$('#gw_car').removeClass("hidden").find('.gw_car_num').html(goodnum > 99 ? '99+' : goodnum)
 			$('.footer-left').removeClass("sprite icon_shoppingcar").html("共"+money+"元")
 			if (money >= how_money) {
 				$('.footer-rigth').html('选好了').css({'background':'#f37c30','color':'#FFF'})
@@ -225,42 +225,40 @@ $(document).ready(function(){
 			
 			//添加点击弹出输入框事件
 			$(".car_main ul").on("click",".car_number",function(){
-				var a = $(this).text()
-				$(".input_mask p").text("")
-				$(".input_mask").show()
-				$(".number").val(a)
-				$(".number").val("").focus();
+				var a = $(this).text();
 				var d = $(this).parent().parent();
 				var id=d.attr('data'),packagenum=d.attr('packagenum'),maxCount=d.attr('maxCount');
-				$(".number").attr("data",id);
-				$(".number").attr("packagenum",packagenum)
-				$(".number").attr("maxCount",maxCount)
+				$(".input_mask p").text("")
+				$(".input_mask").show()
+				$(".number").val(a).attr({"val":a,"data":id,"packagenum":packagenum,"maxCount":maxCount}).focus();
+				$(".footer-wrap").addClass("hidden")
 			})
 			
 			$(".mask_left").on("click",function(){
-				$(".input_mask").hide()
-				
+				$(".input_mask").hide();
+				$(".footer-wrap").removeClass("hidden")
 			})
 			$(".mask_right").on("click",function(){
 				$(".input_mask").hide()
-				var a = $(this).parents().siblings(".number").attr("data");
-				var c = $(this).parents().siblings(".number").attr("val");
-				var e = JSON.parse(localStorage.good);
-				if(e.length != 1){
+				var domNumber = $(this).parents().siblings(".number");
+				var a = domNumber.attr("data");
+				var c = domNumber.attr("val");
+				var goodobj = JSON.parse(localStorage.good);
+				$(".footer-wrap").removeClass("hidden")
+				if(goodobj.length != 1){
 					if(c == 0){
 						$('span[dataID='+a+']').addClass("hidden").prev().addClass("hidden")
 						$('li[data = '+ a +']').remove();
-						var goodobj = JSON.parse(localStorage.good);
+						$("#gw_car").animate({
+							bottom:($('.footer_car').height()+97)+"px"
+						},300)
 						for (var i in goodobj) {
 					       	if (goodobj[i].id == a) {
 				       			goodobj.splice(i,1)
 				            	localStorage.good = JSON.stringify(goodobj, memberfilter);
-				            	return ;
+				            	break;
 				       		}
 			    		}
-						$("#gw_car").animate({
-							bottom:($('.footer_car').height()+97)+"px"
-						},300)
 					}else{
 						$('span[dataID='+a+']').html(c)
 						pub.eventHeadle.change_num(a,c)
@@ -276,31 +274,52 @@ $(document).ready(function(){
 						$('.footer-left').addClass("sprite icon_shoppingcar").html("购物车是空的").animate({
 							'text-indent':0
 						},300)
-						pub.style_change()
 					}else{
 						$('span[dataID='+a+']').html(c)
 						pub.eventHeadle.change_num(a,c)
 					}
 			 	}
+				pub.style_change()
+				
 			})
 			//验证是否是数字
 			$(".number").on("input propertychange",function(){ //input propertychange 即时监听事件
         		$(this).val($(this).val().replace(/\D/g,"")) //将非数字替换成空字符串
         		var d = $(this);
         		
-        		var id=d.attr('data'),packagenum=d.attr('packagenum'),maxCount=d.attr('maxCount');
-        		if ($(this).val() < parseInt(packagenum)) {
+        		var id=d.attr('data'),
+        			packagenum=d.attr('packagenum'),
+        			maxCount=d.attr('maxCount')
+        			oldVal = parseInt(d.attr("val"));
+        			val = parseInt($(this).val() == '' ? 0 : $(this).val()) ;
+        		if (val == 0) {
+        			d.attr("val",0);
+        			return;
+        		}
+        		if (val < parseInt(packagenum)) {
         			d.attr("val",d.val());
         			$(".input_mask p").text("")
 					if(maxCount >0){
-						if($(this).val() > maxCount){
+						if(val > maxCount){
 							$(".input_mask p").text("该商品限购"+maxCount+"件")
 							d.attr("val",maxCount);
 						}
 					}
 				} else{
-					d.attr("val",packagenum);
-					$(".input_mask p").text("*库存不足*")
+					if (oldVal) {
+						if(maxCount >0){
+							if(val > maxCount){
+								$(".input_mask p").text("该商品限购"+maxCount+"件")
+								d.attr("val",maxCount);
+							}
+						}else{
+							d.attr("val",packagenum);
+							$(".input_mask p").text("*库存不足*")
+						}
+	        		}else{
+	        			d.attr("val",packagenum);
+	        			$(".input_mask p").text("*库存不足*")
+	        		}
 				}
        	 	})
 		},
@@ -310,7 +329,7 @@ $(document).ready(function(){
 		       	if (goodobj[i].id == a) {
 	       			goodobj[i].sum = b ;
 	            	localStorage.good = JSON.stringify(goodobj, memberfilter);
-	            	return ;
+	            	break;
 	       		}
     		}
 		}

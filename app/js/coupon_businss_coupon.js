@@ -32,6 +32,12 @@ $(document).ready(function(){
 		sign:pub.sign,
 		source:pub.source
 	}
+	pub.pageNo = common.pageNo;
+	pub.pageSize =common.pageSize ;
+	
+	if (!common.getIslogin()) {
+		common.jump("login.html");
+	}
 	//公用弹出框接口
 	pub.desc_data = function(code){
 		common.ajaxPost({
@@ -250,12 +256,11 @@ $(document).ready(function(){
 			pub.online_coupon.eventHeadle.init();
 		},
 		api:function(){
-			common.ajaxPost($.extend(pub.publicParameter,{
+			common.ajaxPost($.extend({},pub.publicParameter,{
 				method:pub.method[pub.type][pub.index],
 				websiteNode:pub.websiteNode,
-				pageNum:0,
-				pageSize:5,
-				firmId:pub.firmId
+				pageNum:pub.pageNo,
+				pageSize:pub.pageSize,
 			}),function(data){
 				if (data.statusCode == "100000") {
 					pub.online_coupon.show(data)
@@ -265,6 +270,9 @@ $(document).ready(function(){
 		show:function(data){
 			var html='',
 				v = data.data.list;
+				pub.isLast = data.data.lastPage;
+				pub.isLast && $('.lodemore').html('没有更多数据了');
+				!pub.isLast && $('.lodemore').html('点击加载更多数据');
 			for (var i in v) {
 				if(v[i].onOff){
 					html+='<dl class="clearfloat coupon_status1" data = "'+v[i].id+'">'
@@ -292,12 +300,16 @@ $(document).ready(function(){
 			$('.coupon_main_').append(html)
 		},
 		 state :function(id){
-		 	common.ajaxPost($.extend(pub.publicParameter,{
+		 	common.ajaxPost($.extend({},pub.publicParameter,{
 				method:'get_coupon',
-				couponId:id,
-				firmId:pub.firmId
+				couponId:id
 			}),function(data){
 				if (data.statusCode=='100000') {
+					var dom = $(".coupon_main_").find("dl[data="+id+"]");
+						dom.removeClass("coupon_status1").addClass("coupon_status3");
+						dom.find('dt').removeClass("quan_c").addClass("quan_a");
+						dom.find("dd.receive_state").html("已领取")
+		
 					common.prompt('领取成功')
 				}else{
 					common.prompt(data.statusStr);
@@ -309,11 +321,14 @@ $(document).ready(function(){
 		init:function(){
 			$(".coupon_main_").on("click",".receive_state",function(){
 				var id = $(this).parents("dl").attr("data")
-				$(this).text("已领取");
-				$(this).parents("dl").removeClass("coupon_status1").addClass("coupon_status3");
-				$(this).siblings("dt").removeClass("quan_c").addClass("quan_a");
 				pub.online_coupon.state(id);
-			})
+			});
+			$('.lodemore').on('click',function(){
+				if (!pub.isLast) {
+					pub.pageNo++;
+					pub.online_coupon.api()
+				}
+			});
 		}
 	}
 	
