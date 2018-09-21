@@ -142,6 +142,15 @@ $(document).ready(function(){
 	/*---------------------------------------订单管理----------------------------------*/
 	pub.order = {
 		init:function(){
+			pub.param = common.getUrlParam("type")
+			if (pub.param) {
+				var index = pub.param.split("-")[0]
+				pub.orderStatus = pub.param.split("-")[1];
+				$(".order_management_top .order_man_item").eq(index).addClass("order_border_bottom").siblings().removeClass("order_border_bottom");
+				$(".order_management_main .order_man_main").eq(index).show().siblings().hide();
+				
+			}
+			
 			pub.order.orderData()
 			pub.order.eventHeadle.init();
 			pub.arrid = pub.getIdArr();

@@ -34,6 +34,284 @@ $(document).ready(function(){
 		pub.sign = md5( pub.source + "key" + common.secretKey() ).toUpperCase();
 		pub.tokenId = common.tokenId();
 	};
+	
+	
+	
+	
+	/*
+	定义页面数据结构
+	*/
+	var dateModule  = {
+		logined:false,//是否登陆
+		
+		//底部nav数据结构
+		fonterNav:{
+			index:2,
+			list:[{
+				linkUrl:'../index.html',
+				name:'首页',
+				classArr:['tab_bar_home_a','tab_bar_home_b']
+			},{
+				linkUrl:'moreGoods.html',
+				name:'更多商品',
+				classArr:['tab_bar_more_a','tab_bar_more_b']
+			},{
+				linkUrl:'wo.html',
+				name:'我的',
+				classArr:['tab_bar_mine_a','tab_bar_mine_b']
+			},{
+				linkUrl:'login.html',
+				name:'消息',
+				classArr:['tab_bar_Message_a','tab_bar_Message_b']
+			}]
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	使用VUe的双向数据绑定
+	实现页面的状态管理
+	 * */
+	pub.Vue = new Vue({
+		el: '#appVue',
+		data: {
+			isMask:false,//遮罩层的状态 true 表示显示
+			pageNo: common.PAGE_INDEX,
+			pageSize: common.PAGE_SIZE,
+			isWx:false,//是否是微信环境
+			
+			urlParm:null,//页面URL后面拼接的参数
+			
+			logined:pub.logined,
+			
+			isNewMsg:false,
+			ajaxState:'wait',
+			
+			system:pub.system,//系统参数
+			
+			
+			fonterNav:dateModule.fonterNav,
+			
+			topNav:{
+				index:0,
+				list:[],
+			},
+			subNav:{
+				index:0,
+				list:[],
+			},
+			goodList:[],
+			
+			
+		},
+        beforeCreate : function(){
+        	
+        },
+        created : function(){
+        	console.log("created			//创建完成")
+        	this.isWx = common.isWeiXin();
+        	
+        },
+        beforeMount : function(){
+        	console.log("beforeMount		//挂载之前")
+        	
+        },
+        updated : function(){
+        	console.log("updated			//数据被更新后")
+        	
+        },
+        computed: {
+		    // 计算属性width
+		    getTopWidth: function () {
+		      if (this.topNav.list.length > 4) {
+		      	console.log(this.topNav.list.length)
+		      	return (this.topNav.list.length * 164)+"px"
+		      }else{
+		      	return "750px"
+		      }
+		    },
+		    getSubHeight:function(){
+		    	return (this.subNav.list.length * 100)+"px"
+		    },
+		    topIndex:function(){
+		    	return this.topNav.index;
+		    },
+		    subIndex:function(){
+		    	return this.subNav.index;
+		    }
+		},
+        watch : {
+        	topIndex:function(val,oldVal){
+        		console.log("val="+val+",oldVal="+oldVal);
+        		if (val != oldVal) {
+        			if (val >= 2) {
+						$('.moreDoogs_main_top').scrollLeft((val-1)*140)
+					}else{
+						$('.moreDoogs_main_top').scrollLeft(0)
+					}
+        		}
+        	},
+        	subIndex:function(val,oldVal){
+        		console.log("val="+val+",oldVal="+oldVal);
+        		if (val != oldVal) {
+        			/*if (val >= 2) {
+						$('.moreDoogs_main_top').scrollLeft((val-1)*140)
+					}else{
+						$('.moreDoogs_main_top').scrollLeft(0)
+					}*/
+        		}
+        	},
+        },
+		methods: {
+			goBack:function(){
+				
+			},
+			goToNext:function(e){
+				var jumpUrl = '';
+				//e.type 等于click表示为没有传参数的情况
+				if (e.type == 'click') {
+					var target = e.currentTarget;
+					var data = target.getAttribute("data-url");
+					jumpUrl = data;
+				}else{
+					console.log(e.linkUrl)
+					jumpUrl = e.linkUrl;
+				}
+				
+				if (this.logined) {
+					jumpUrl && common.jump(jumpUrl)
+				}else{
+					common.jump("login.html")
+				}
+			},
+			goToNext1:function(index){
+				var jumpUrl = '';
+				if (this.fonterNav.index != index) {
+					jumpUrl = this.fonterNav.list[index].linkUrl;
+					common.jump(jumpUrl)
+				}
+			},
+			changeFistType:function(index){
+				if (this.topNav.index != index) {
+					pub.creatDataModule.topNav({'index':index});
+					pub.twoTypecode = this.topNav.list[index].typeCode;
+					pub.moregoods.twoapi();
+				}
+			},
+			changeSubType:function(){
+				
+			}
+		}
+	});
+	
+	
+	pub.creatDataModule = {
+		init:function(){
+			pub.creatDataModule.logined();
+			pub.creatDataModule.fonterNav();
+			
+		},
+		logined:function(){
+			var isBool = false;
+			if (pub.logined) {
+				isBool = true;
+			}else{
+				isBool = false;
+			}
+			
+		},
+		fonterNav:function(){
+			var obj = '';
+			if (pub.logined) {
+				dateModule.fonterNav.list[3].linkUrl = 'message.html';
+				obj = dateModule.fonterNav;
+			}else{
+				obj = dateModule.fonterNav;
+			}
+			pub.Vue.fonterNav = obj;
+		},
+		topNav:function(v){
+			if (v['list']) {
+				pub.Vue.topNav.list = v.list;
+			}
+			if ((typeof v['index']) == 'number') {
+				pub.Vue.topNav.index = v.index;
+			}
+		},
+		subNav:function(v){
+			if (v['list']) {
+				pub.Vue.subNav.list = v.list;
+			}
+			if (v['index']) {
+				pub.Vue.subNav.index = v.index;
+			}
+		},
+		goodList:function(){
+			
+		},
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//公用方法
 	pub.style_change = function (){
 		var money = parseInt(getgoodsMoney());
@@ -377,12 +655,10 @@ $(document).ready(function(){
 				if (data.statusCode == 100000) {
 					if (pub.pageNo == 1) {
 						obj.data(data);
-						pub.moregoods.goods_show(data);
 					}else{
-						pub.moregoods.goods_show(data);
 					}
+					pub.moregoods.goods_show(data);
 				}
-				
 			})
 		},
 		first_list:function(data){

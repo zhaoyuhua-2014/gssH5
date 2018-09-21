@@ -51,7 +51,12 @@ var common={
 		if ((url == "html/login.html" || url == "login.html") && common.isWeiXin() && !localStorage.getItem("openid")) {
 			window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+common.appid[common.websiteNode]+"&redirect_uri="+common.httpData[common.websiteNode]+"&response_type=code&scope=snsapi_userinfo&state=gss&connect_redirect=1#wechat_redirect"
 		}else{
-			window.location.href = url+"?v=0.1";
+			if (url.indexOf("?") > 1) {
+				window.location.href = url+"&v=0.1";
+			}else{
+				window.location.href = url+"?v=0.1";
+			}
+			
 		}
 	},
 	getUrlParam:function  ( mid ) {

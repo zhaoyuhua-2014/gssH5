@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=750,user-scalable=no"/>
+    	<meta content="telephone=no, address=no" name="format-detection" />
+    	<link rel="icon" href="../img/gss.ico" type="image/x-icon">
+    	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' http://app.guoss.cn/gss_api/server/api.do http://61.164.113.187:8090/gssapi/server/api.do; style-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
+		
+		<!-- build:css ../css/common.css -->
+	    <link rel="stylesheet" type="text/css" href="../css/rest.css"/>
+	    <link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	    <!-- /build -->
+		<title>VIP服务</title>
+	</head>
+	<body>
+		<div class="header-wrap">
+			<div class="header_left login_top_back sprite arrow_left_orange">返回</div>
+			<h1 class="index_tit header_tit">VIP服务</h1>
+		</div>
+		<div class="empty"></div>
+		<div id="appVue" class="main-wrap vip_main_wrap">
+			<div class="vip_main_top">
+				<div class="vip_main_growValue">
+					<div class="vip_growValue_top">
+						<span class="vip_growValue_tit">当月成长值</span><span class="vip_growValue_desc">当月成长值为xx,在积xx成长值可享受下个月VIP优惠</span>
+					</div>
+					<div class="vip_growValue_progress">
+						<p class="growInfo_progressAll"></p>
+						<p class="growInfo_progressTrue"></p>
+					</div>
+					<div class="vip_growValue_progress_subscript clearfloat">
+						<span class="float_left">0</span>
+						<span class="float_right">110</span>
+					</div>
+				</div>
+				<div class="vip_main_growValue vip_grow_all active">
+					<div class="vip_growValue_top">
+						<span class="vip_growValue_tit">2</span> <span class="vip_activation">未激活</span> <span class="vip_growValue_desc">累积成长值为1800，还差xx点到下一等级</span>
+					</div>
+					<div class="vip_prowValue_grade_box clearfloat">
+						<dl class="grade1 active">
+							<dt></dt>
+							<dd>成长值满110点</dd>
+						</dl>
+						<div class="line_box active">
+							
+						</div>
+						<dl class="grade2">
+							<dt></dt>
+							<dd>成长值满880点</dd>
+						</dl>
+						<div class="line_box">
+							
+						</div>
+						<dl class="grade3">
+							<dt></dt>
+							<dd>成长值满1880点</dd>
+						</dl>
+						<div class="line_box">
+							
+						</div>
+						<dl class="grade4">
+							<dt></dt>
+							<dd>成长值满3288点</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="vip_main_center">
+				<div class="vip_main_icon cont cont4">
+					<div class="vip_main_icon_tit cont_tit noactive">VIP特权</div>
+					<div class="vip_main_icon_boxs clearfloat">
+						<dl class="float_left">
+							<dt><img src="../img/icon_vip_coupon1.png"/></dt>
+							<dd>优惠券</dd></dl>
+						<dl class="float_left">
+							<dt><img src="../img/icon_vip_coupon2.png"/></dt>
+							<dd>商品券</dd></dl>
+						<dl class="float_left">
+							<dt><img src="../img/icon_vip_coupon3.png"/></dt>
+							<dd>专项类目券</dd>
+						</dl>
+						<dl class="float_left">
+							<dt><img src="../img/icon_vip_coupon4.png"/></dt>
+							<dd>商品选购权</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="vip_main_bottom">
+				<div class="vip_main_introduce">
+					<div class="vip_main_introduce_item">
+						<div class="vip_main_introduce_title">
+							1.VIP享受条件
+						</div>
+						<div class="vip_main_introduce_content">
+							<p>当月成长值达到110点，可享受下个月相应等级VIP会员服务，<b>有效期一个月</b></p>
+						</div>
+					</div>
+					<div class="vip_main_introduce_item">
+						<div class="vip_main_introduce_title">
+							2.VIP会员成长值
+						</div>
+						<div class="vip_main_introduce_content">
+							<p>VIP成长值是基于用户一定时期内使用果速送业务下单的实付款额、下单频次以及合作效果决定的，用户达到相应的成长值享受VIP会员以及提高VIP等级。</p>
+							<p class="formula">当月成长值=实付款成长值+下单频次成长值-不良合作下降值</p>
+							<div class="table">
+								<div class="table_tr clearfloat">
+									<div class="table_td">成长值</div>
+									<div class="table_td">实付款250元=1点</div>
+								</div>
+								<div class="table_tr clearfloat">
+									<div class="table_td">下单频次成长值（每日）</div>
+									<div class="table_td">下单1点/次，没有下单-0.5次/次</div>
+								</div>
+								<div class="table_tr clearfloat">
+									<div class="table_td">不良记录下降值</div>
+									<div class="table_td">逾期付款（隔夜）-10点/次</div>
+								</div>
+							</div>
+							<p class="notes">注：逾期欠款（隔夜）一个月三次以上，无理由退货一个月三次以上，取消其VIP资格（以月做统计核实）</p>
+						</div>
+					</div>
+					<div class="vip_main_introduce_item">
+						<div class="vip_main_introduce_title">
+							3.VIP等级
+						</div>
+						<div class="vip_main_introduce_content">
+							<p>VIP等级是所有月份累积成长值，达到相应标准即可升级，一旦升级，<b>一年内有效。</b>如果一年内没有升级（至少一个等级），次年将降级。</p>
+							<div class="table">
+								<div class="table_tr clearfloat">
+									<div class="table_td">等级</div>
+									<div class="table_td">相应累积成长值</div>
+								</div>
+								<div class="table_tr clearfloat">
+									<div class="table_td">VIP1</div>
+									<div class="table_td">110</div>
+								</div>
+								<div class="table_tr clearfloat">
+									<div class="table_td">VIP2</div>
+									<div class="table_td">880</div>
+								</div>
+								<div class="table_tr clearfloat">
+									<div class="table_td">VIP3</div>
+									<div class="table_td">1880</div>
+								</div>
+								<div class="table_tr clearfloat">
+									<div class="table_td">VIP4</div>
+									<div class="table_td">3288</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<!-- build:js js/min/address.min.js -->
+	<script src="../quote/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../quote/mobile-util.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../quote/mdData.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../quote/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/vip.js" type="text/javascript" charset="utf-8"></script>
+	<!-- endbuild -->
+	
+</html>
