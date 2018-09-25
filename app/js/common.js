@@ -117,6 +117,12 @@ var common={
 	isWeiXin : function(){
 		return navigator.userAgent.toLowerCase().match(/MicroMessenger/i) == 'micromessenger';
 	},
+	// APP
+	isApp : function(){
+		var 
+		ua = navigator.userAgent.toLowerCase();
+		return ua.match(/grh_app/i) == 'grh_app';
+	},
 	height:function(){
 		return 
 	},

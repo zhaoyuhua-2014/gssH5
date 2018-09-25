@@ -692,10 +692,8 @@ $(document).ready(function(){
 				$('.moreDoogs_main_box_right_box').height(hei);
 		},
 		two_list:function(data){
-			var html='',v = data.data,n=null;
-			if (!pub.moregoods.UrlCode) {
-				n = 0;
-			}
+			var html='',v = data.data,n=0;
+			
 			$(".moreDoogs_main_box_left").find("li").remove();
 			for (var i in v) {
 				if (pub.moregoods.UrlCode == v[i].typeCode) {
@@ -725,7 +723,7 @@ $(document).ready(function(){
 			moregood_data=sessionStorage.setItem('moregood_data',JSON.stringify(data));
 			for (var i in v) {
 				html2 +='<li><dl class="moreGoods_goods_detaile clearfloat" data="'+v[i].id+'" dataName="'+v[i].goodsName+'" dataPir="'+v[i].wholeGssPrice+'" wholePriceSize="'+v[i].wholePriceSize+'" gssPrice="'+v[i].gssPrice+'" priceUnit="'+v[i].priceUnit+'" packageNum="'+(parseInt(v[i].initNum) - parseInt(v[i].saleNum))+'" maxCount="'+v[i].maxCount+'" bussinessType="'+v[i].bussinessType+'" score="'+v[i].score+'" >'
-				html2 +='<dt><img src="'+v[i].goodsLogo+'"/></dt>'
+				html2 +='<dt><img src="'+v[i].goodsLogo+'"/><span class="icon_vip1"></span>	</dt>'
 				html2 +='<dd>'		
 				html2 +='<h3 class="moreGoods_goods_name">'+v[i].goodsName+'</h3>'
 				html2 +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'

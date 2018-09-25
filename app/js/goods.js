@@ -387,10 +387,7 @@ $(document).ready(function(){
 		},
 		first_list:function(data){
 			
-			var html='',v = data.data,n=null;
-			if (!pub.moregoods.UrlCode) {
-				n = 0;
-			}
+			var html='',v = data.data,n=0;
 			for (var i in v) {
 				if (pub.moregoods.UrlCode &&  pub.moregoods.UrlCode.substr(0,2) == v[i].typeCode) {
 					n = i;
@@ -401,7 +398,6 @@ $(document).ready(function(){
 			
 			var $ele=$(".moreDoogs_main_top_list li").eq(n);
 			$ele.addClass("true");
-			console.log($ele.get(0).offsetLeft)
 			pub.twoTypecode = $ele.attr("first_list_data"+n);
 			if ($ele.get(0).offsetLeft > 200) {
 				$('.moreDoogs_main_top').scrollLeft($ele.get(0).offsetLeft-200)
@@ -416,10 +412,8 @@ $(document).ready(function(){
 				$('.moreDoogs_main_box_right_box').height(hei);
 		},
 		two_list:function(data){
-			var html='',v = data.data,n=null;
-			if (!pub.moregoods.UrlCode) {
-				n = 0;
-			}
+			var html='',v = data.data,n=0;
+			
 			$(".moreDoogs_main_box_left").find("li").remove();
 			for (var i in v) {
 				if (pub.moregoods.UrlCode == v[i].typeCode) {

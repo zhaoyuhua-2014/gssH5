@@ -9,7 +9,7 @@ $(document).ready(function(){
 		pageSize:common.pageSize,
 		pageNo:common.pageNo,
 		logined : common.getIslogin(),
-		method:[{'1':'orders_manage2','2':'order_details_thr'},'order_cancel','order_del','gss_desc'],
+		method:[{'1':'orders_manage2','2':'order_details_fou'},'order_cancel','order_del','gss_desc'],
 		index:0,
 		orderCode:null,
 		order_main:$('.order_management_main .order_man_main'),
@@ -282,6 +282,29 @@ $(document).ready(function(){
 	
 	/*---------------------------------------------订单详情--------------------------------------------*/
 	
+	var moduleData = {
+		//普通的优惠卷
+		couponInfo:{
+			selectId:null,
+			useable:[],//可用列表
+			unusable:[]//不可用列表
+		},
+		//商品优惠卷
+		goodCouponInfo:{
+			selectId:null,
+			useable:[],//可用列表
+			unusable:[]//不可用列表
+		},
+		//类目优惠卷
+		typeCouponInfo:{
+			selectId:null,
+			useable:[],//可用列表
+			unusable:[]//不可用列表
+		},
+	}
+	
+	
+	
 	
 	pub.orderDetails = {
 		init:function(){
@@ -418,6 +441,21 @@ $(document).ready(function(){
 			}else if (v.orderStatus=='-1') {
 			}
 			
+			moduleData.couponInfo = {
+				selectId:(data.data.unusable && data.data.unusable.length != 0) ? data.data.unusable[0].id : null,
+				available:data.data.useable,//可用列表
+				unAvailable:data.data.unusable//不可用列表
+			}
+			moduleData.goodCouponInfo = {
+				selectId:null,
+				available:data.data.guseable,//可用列表
+				unAvailable:data.data.gunusable//不可用列表
+			}
+			moduleData.typeCouponInfo = {
+				selectId:null,
+				useable:data.data.tuseable,//可用列表
+				unusable:data.data.tunusable//不可用列表
+			}
 		},
 		
 		order_view:{

@@ -87,7 +87,8 @@ $(document).ready(function(){
 				name:'消息',
 				classArr:['tab_bar_Message_a','tab_bar_Message_b']
 			}]
-		}
+		},
+		userVipInfo:{}
 	}
 	
 	
@@ -128,6 +129,8 @@ $(document).ready(function(){
 			userInfo:pub.logined ? common.user_data() : {},//用户信息
 			
 			fonterNav:dateModule.fonterNav,
+			
+			userVipInfo:dateModule.userVipInfo
 		},
         beforeCreate : function(){
         	
@@ -153,11 +156,29 @@ $(document).ready(function(){
         computed: {
 		    // 计算属性width
 		    getWidth: function () {
-		      if (this.storehouseInfo.data.length > 2) {
-		      	return (this.storehouseInfo.data.length * 270)+"px"
-		      }else{
-		      	return "630px"
-		      }
+		    	if (this.userVipInfo.firmMonthExp >= this.userVipInfo.monthExp ) {
+		      		return "702"
+		    	}else{
+		      		if (this.userVipInfo.firmMonthExp == 0) {
+		      			return '0'
+			      	}else{			      		
+			      		var coefficient = this.userVipInfo.firmMonthExp / this.userVipInfo.monthExp
+			      		return (coefficient * 702).toFixed(2); 
+			      	}
+		      	}
+		    },
+		    getMarginleft:function(){
+		    	console.log($(".growInfo_pointer span").width())
+		    	return  '-85px';
+		    },
+		    getLeft:function(){
+		    	if (this.getWidth > 617) {
+		    		return '617px'
+		    	}else if(this.getWidth < 85){
+		    		return '85px'
+		    	}else{
+		    		return this.getWidth+'px';		    		
+		    	}
 		    }
 		},
         watch : {
@@ -262,6 +283,12 @@ $(document).ready(function(){
 			}else{
 				pub.Vue.isNewMsg = false;
 			}
+		},
+		userVipInfo:function(v){
+			if (v) {
+				v['vip'] = '-1'
+				pub.Vue.userVipInfo = v;
+			}
 		}
 		
 	}
@@ -275,6 +302,7 @@ $(document).ready(function(){
 		init:function(){
 			if (pub.logined) {
 				pub.person.api();
+				pub.person.firm_vip_info.init();
 			}
 			pub.creatDataModule.init()
 		},
@@ -346,6 +374,24 @@ $(document).ready(function(){
 				}
 			})
 		},
+		firm_vip_info:{
+			init:function(){
+				common.ajaxPost({
+					method:'firm_vip_info',
+					firmId:pub.firmId
+				},function(data){
+					if (data.statusCode=='100000') {
+						pub.person.firm_vip_info.apiData(data)
+					}else{
+						common.prompt(data.statusStr)
+					}
+				})
+			},
+			apiData:function(v){
+				var v = v.data;
+				pub.creatDataModule.userVipInfo(v)
+			}
+		}
 	}
 	pub.person.eventHeadle = {
 		init:function(){

@@ -19,29 +19,30 @@
 			<h1 class="index_tit header_tit">领券中心</h1>
 		</div>
 		<div class="empty"></div>
-		<div id="appVue" class="main-wrap ticket_main_wrap">
+		<div id="appVue" class="main-wrap ticket_main_wrap" v-cloak>
 			<div class="ticket_nav clearfloat">
-				<div class="ticket_nav_item float_left active">优惠券</div>
-				<div class="ticket_nav_item float_left">商品券</div>
-				<div class="ticket_nav_item float_left">专属类目券</div>
+				<div class="ticket_nav_item float_left " v-for="(item,index) in vipNav" v-text="item.name" :class="{'active':coupon.type == item.type}" @click="couponNav(item)"></div>
 			</div>
 			<div class="ticket_main">
 				<div class="ticket_main_content">
-					<div class="ticket_item clearfloat">
+					<div class="ticket_item clearfloat" v-for="(item,index) in coupon['list']">
 						<div class="ticket_item_left float_left">
-							<span class="ticket_money">80</span>
+							<span class="ticket_money" v-text='item.templateMoney'></span>
 						</div>
 						<div class="ticket_item_center float_left">
-							<p class="ticket_tit"><span class="ticket_name">VIP特权红包</span> <span data-url="vip.html" class="user_vip_icon vip1"></span></p>
-							<p class="ticket_item_time">有效期至：2018-09-07</p>
-							<p class="ticket_item_prerequisite">单笔订单满：￥899.00</p>
-							<p class="ticket_item_from">来源：VIP活动</p>
+							<p class="ticket_tit"><span class="ticket_name" v-text='item.templateName'></span> <span data-url="vip.html" class="user_vip_icon" :class="'vip'+item.vipGrade"></span></p>
+							<p class="ticket_item_time">有效期：<span v-text='item.realDays+"天"'></span></p>
+							<p class="ticket_item_prerequisite">单笔订单满：<span v-text="'￥'+item.leastOrderMoney"></span></p>
+							<p class="ticket_item_from"></p>
 						</div>
-						<div class="ticket_item_right float_right">
-							<span class="btn">领取</span>
+						<div class="ticket_item_right float_right" :class="'state'+item.state">
+							<span class="btn" v-text="btnText(item)" @click="getCoupon(item)"></span>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="ticket_bottom">
+				<p>*VIP会员在会员期间只可领取一次<span v-text="coupon['name']"></span></p>
 			</div>
 		</div>
 	</body>

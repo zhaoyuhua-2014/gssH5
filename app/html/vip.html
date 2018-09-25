@@ -23,67 +23,47 @@
 			<div class="vip_main_top">
 				<div class="vip_main_growValue">
 					<div class="vip_growValue_top">
-						<span class="vip_growValue_tit">当月成长值</span><span class="vip_growValue_desc">当月成长值为xx,在积xx成长值可享受下个月VIP优惠</span>
+						<span class="vip_growValue_tit">当月成长值</span><span class="vip_growValue_desc" v-text="'当月成长值为'+userVipInfo.firmMonthExp+',在积'+userVipInfo.needExp+'成长值可享受下个月VIP优惠'"></span>
 					</div>
 					<div class="vip_growValue_progress">
 						<p class="growInfo_progressAll"></p>
-						<p class="growInfo_progressTrue"></p>
+						<p class="growInfo_progressTrue" v-bind:style="{width: getWidth+'px'}"></p>
 					</div>
 					<div class="vip_growValue_progress_subscript clearfloat">
-						<span class="float_left">0</span>
-						<span class="float_right">110</span>
+						<span class="float_left" v-text='0'></span>
+						<span class="float_right" v-text='userVipInfo.monthExp'></span>
 					</div>
 				</div>
-				<div class="vip_main_growValue vip_grow_all active">
+				<div class="vip_main_growValue vip_grow_all" :class="{'active':userVipInfo.vip >0}">
 					<div class="vip_growValue_top">
-						<span class="vip_growValue_tit">2</span> <span class="vip_activation">未激活</span> <span class="vip_growValue_desc">累积成长值为1800，还差xx点到下一等级</span>
+						<span class="vip_growValue_tit" v-text="userVipInfo.vipGrade"></span><span class="vip_activation" v-text="userVipInfo.vip > 0 ? '已激活' : '未激活'"></span> <span class="vip_growValue_desc" v-text="'累积成长值为'+userVipInfo.firmExp+'，还差'+userVipInfo.upExp+'点到下一等级'" ></span>
 					</div>
 					<div class="vip_prowValue_grade_box clearfloat">
-						<dl class="grade1 active">
-							<dt></dt>
-							<dd>成长值满110点</dd>
+						<dl class="grade1" :class="{'active':userVipInfo.vipGrade >=1}">
+							<dt></dt><dd v-text="'成长值满'+vipGradeList[0].end+'点'"></dd>
 						</dl>
-						<div class="line_box active">
-							
-						</div>
-						<dl class="grade2">
-							<dt></dt>
-							<dd>成长值满880点</dd>
+						<div class="line_box" :class="{'active':userVipInfo.vipGrade >=1}"></div>
+						<dl class="grade2" :class="{'active':userVipInfo.vipGrade >=2}">
+							<dt></dt><dd v-text="'成长值满'+vipGradeList[1].end+'点'"></dd>
 						</dl>
-						<div class="line_box">
-							
-						</div>
+						<div class="line_box" :class="{'active':userVipInfo.vipGrade >=2}"></div>
 						<dl class="grade3">
-							<dt></dt>
-							<dd>成长值满1880点</dd>
+							<dt></dt><dd v-text="'成长值满'+vipGradeList[2].end+'点'"></dd>
 						</dl>
-						<div class="line_box">
-							
-						</div>
-						<dl class="grade4">
-							<dt></dt>
-							<dd>成长值满3288点</dd>
+						<div class="line_box" :class="{'active':userVipInfo.vipGrade >=3}"></div>
+						<dl class="grade4" :class="{'active':userVipInfo.vipGrade >=4}">
+							<dt></dt><dd v-text="'成长值满'+vipGradeList[3].end+'点'"></dd>
 						</dl>
 					</div>
 				</div>
 			</div>
 			<div class="vip_main_center">
 				<div class="vip_main_icon cont cont4">
-					<div class="vip_main_icon_tit cont_tit noactive">VIP特权</div>
+					<div class="vip_main_icon_tit cont_tit" :class="{'noactive':isActive}">VIP特权</div>
 					<div class="vip_main_icon_boxs clearfloat">
-						<dl class="float_left">
-							<dt><img src="../img/icon_vip_coupon1.png"/></dt>
-							<dd>优惠券</dd></dl>
-						<dl class="float_left">
-							<dt><img src="../img/icon_vip_coupon2.png"/></dt>
-							<dd>商品券</dd></dl>
-						<dl class="float_left">
-							<dt><img src="../img/icon_vip_coupon3.png"/></dt>
-							<dd>专项类目券</dd>
-						</dl>
-						<dl class="float_left">
-							<dt><img src="../img/icon_vip_coupon4.png"/></dt>
-							<dd>商品选购权</dd>
+						<dl class="float_left" v-for="(item,index) in vipPrivilege" @click="goToNext(item)">
+							<dt><img :src="item.status > 1 ? item.onLogo : item.offLogo"/></dt>
+							<dd v-text="item.name"></dd>
 						</dl>
 					</div>
 				</div>
@@ -95,7 +75,7 @@
 							1.VIP享受条件
 						</div>
 						<div class="vip_main_introduce_content">
-							<p>当月成长值达到110点，可享受下个月相应等级VIP会员服务，<b>有效期一个月</b></p>
+							<p>当月成长值达到<span v-text="system.month_exp"></span>点，可享受下个月相应等级VIP会员服务，<b>有效期一个月</b></p>
 						</div>
 					</div>
 					<div class="vip_main_introduce_item">
@@ -108,15 +88,15 @@
 							<div class="table">
 								<div class="table_tr clearfloat">
 									<div class="table_td">成长值</div>
-									<div class="table_td">实付款250元=1点</div>
+									<div class="table_td">实付款<span v-text="system.exp_of_pay_money"></span>元=1点</div>
 								</div>
 								<div class="table_tr clearfloat">
 									<div class="table_td">下单频次成长值（每日）</div>
-									<div class="table_td">下单1点/次，没有下单-0.5次/次</div>
+									<div class="table_td">下单<span v-text="system.order_add_exp"></span>点/次，没有下单-<span v-text="system.order_ueduce_exp"></span>点/次</div>
 								</div>
 								<div class="table_tr clearfloat">
 									<div class="table_td">不良记录下降值</div>
-									<div class="table_td">逾期付款（隔夜）-10点/次</div>
+									<div class="table_td">逾期付款（隔夜）<span v-text="system.two_night_not_pay"></span>点/次</div>
 								</div>
 							</div>
 							<p class="notes">注：逾期欠款（隔夜）一个月三次以上，无理由退货一个月三次以上，取消其VIP资格（以月做统计核实）</p>
@@ -133,23 +113,10 @@
 									<div class="table_td">等级</div>
 									<div class="table_td">相应累积成长值</div>
 								</div>
-								<div class="table_tr clearfloat">
-									<div class="table_td">VIP1</div>
-									<div class="table_td">110</div>
+								<div class="table_tr clearfloat" v-for="(item,index) in vipGradeList">
+									<div class="table_td" v-text="'VIP'+item.grade"></div>
+									<div class="table_td" v-text="item.end"></div>
 								</div>
-								<div class="table_tr clearfloat">
-									<div class="table_td">VIP2</div>
-									<div class="table_td">880</div>
-								</div>
-								<div class="table_tr clearfloat">
-									<div class="table_td">VIP3</div>
-									<div class="table_td">1880</div>
-								</div>
-								<div class="table_tr clearfloat">
-									<div class="table_td">VIP4</div>
-									<div class="table_td">3288</div>
-								</div>
-								
 							</div>
 						</div>
 					</div>
@@ -159,6 +126,7 @@
 	</body>
 	<!-- build:js js/min/address.min.js -->
 	<script src="../quote/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../quote/vue.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../quote/mobile-util.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../quote/mdData.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../quote/layer.js" type="text/javascript" charset="utf-8"></script>
