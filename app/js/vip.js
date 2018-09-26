@@ -2,9 +2,7 @@ $(document).ready(function(){
 	var pub = {};
 	$.extend(pub,{
 		logined : common.getIslogin(),
-		method:['user_logout',"user_vipal_msg",'firm_info_update_faceimgurl'],
 		issystem:sessionStorage.getItem('system'),
-		
 	});
 	if( pub.logined ){
 		pub.firmId = common.user_data().firmInfoid,
@@ -130,9 +128,19 @@ $(document).ready(function(){
 			},
 			goToNext:function(item){
 				var jumpUrl = '';
-				
+				console.log(this.isApp)
 				if (this.isApp) {
 					
+					var jsonObj = {
+						type:item.type,
+						linkUrl:item.linkUrl
+					};
+					if (common.isAndroid()) {
+						android.VipPrerogative (JSON.stringify(jsonObj));
+					}
+					if (common.isPhone()) {
+						window.webkit.messageHandlers.VipPrerogative .postMessage(jsonObj)
+					}
 				}else{
 					if (item.type == 1 || item.type == 2 || item.type == 3) {
 						common.jump("vip_ticket_center.html?type="+item.type);
@@ -144,9 +152,6 @@ $(document).ready(function(){
 						}else{
 							common.jump("moreGoods.html")
 						}
-						
-						
-						
 					}
 				}
 			},

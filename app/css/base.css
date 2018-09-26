@@ -1750,3 +1750,9 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
 .icon_vip2{display: block;position: absolute;width: 62px;height: 32px;background: url(../img/vip_icon2_square_active.png);top: 0;left: 0;}
 .icon_vip3{display: block;position: absolute;width: 62px;height: 32px;background: url(../img/vip_icon3_square_active.png);top: 0;left: 0;}
 .icon_vip4{display: block;position: absolute;width: 62px;height: 32px;background: url(../img/vip_icon4_square_active.png);top: 0;left: 0;}
+
+
+.select_coupon{margin-bottom: 110px;}
+.select_coupon .coupon_main_available .coupon_status1.no {background:#fff url('../img/coupon_active_no.png') no-repeat right top;}
+
+.select_coupon .coupon_main_available .coupon_status1.no.active{background:#fff url('../img/coupon_active.png') no-repeat right top;}
