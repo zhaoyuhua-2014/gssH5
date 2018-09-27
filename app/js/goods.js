@@ -20,7 +20,7 @@ $(document).ready(function(){
 		pageSize:common.pageSize,
 		pageNo:common.pageNo,
 		logined : common.getIslogin(),
-		method:['goods_first_type',"goods_second_type",'goods_info_show2','goods_collection_del','goods_collection_add'],
+		method:['goods_first_type',"goods_second_type",'goods_info_show_thr','goods_collection_del','goods_collection_add'],
 		issystem:sessionStorage.getItem("system"),
 		goodsId: isGoodsId(common.getUrlParam("goodsId")) || sessionStorage.getItem("goodsId"),
 		isColl:null,
@@ -443,13 +443,32 @@ $(document).ready(function(){
 			moregood_data=sessionStorage.setItem('moregood_data',JSON.stringify(data));
 			for (var i in v) {
 				html2 +='<li><dl class="moreGoods_goods_detaile clearfloat" data="'+v[i].id+'" dataName="'+v[i].goodsName+'" dataPir="'+v[i].wholeGssPrice+'" wholePriceSize="'+v[i].wholePriceSize+'" gssPrice="'+v[i].gssPrice+'" priceUnit="'+v[i].priceUnit+'" packageNum="'+(parseInt(v[i].initNum) - parseInt(v[i].saleNum))+'" maxCount="'+v[i].maxCount+'" bussinessType="'+v[i].bussinessType+'" score="'+v[i].score+'" >'
-				html2 +='<dt><img src="'+v[i].goodsLogo+'"/></dt>'
+				html2 +='<dt>'
+				html2 +='	<img src="'+v[i].goodsLogo+'"/>'
+				if (v[i].vipGrade > 0) {
+	            	html2 += '<span class = "icon_vip'+v[i].vipGrade+'"></span>'
+	            }
+				html2 +='</dt>'
 				html2 +='<dd>'		
 				html2 +='<h3 class="moreGoods_goods_name">'+v[i].goodsName+'</h3>'
-				html2 +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'
+				if (v[i].vipGrade > 0) {
+					if (v[i].maxCount) {
+						html2 +='<p class="moreGoods_goods_text">限购'+v[i].maxCount+'件</p>'
+					}else{
+						html2 +='<p class="moreGoods_goods_text"> </p>'
+					}
+	            }else{
+	            	html2 +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'
+	            }
+				//html2 +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'
 				if (pub.logined) {
 					html2 +='<p class="moreGoods_goods_price">'
-					html2 +='<span class="fontColor">'+v[i].gssPrice+'</span>元/'+v[i].priceUnit+'&nbsp; &nbsp;<span>'+v[i].priceDesc+'</span>'
+					if (v[i].vipGrade > 0) {
+						html2 +='<span class="fontColor">'+v[i].priceDesc+'</span><del>'+v[i].nomalPrice+'</del>'
+		            }else{
+		            	html2 +='<span class="fontColor">'+v[i].gssPrice+'</span>元/'+v[i].priceUnit+'&nbsp; &nbsp;<span>'+v[i].priceDesc+'</span>'
+		            }
+					
 					html2 +='</p>'
 					html2 +='<div class="moreGoods_goods_num">'
 					html2 +='<div class="moreGoods_goods_icon">'

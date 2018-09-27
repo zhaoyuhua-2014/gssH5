@@ -1628,7 +1628,7 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
 .cont2,.cont3,.cont4{background: #FFFFFF;padding: 32px 0;}
 .cont_tit{font-size:32px ;line-height: 48px;color: #333333;text-align: center;}
 .cont3 dl,.cont2 dl,.cont4 dl{float: left;width: 25%;text-align: center;}
-.cont3 dl dt,.cont2 dl dt,.cont4 dl dt{padding-top: 28px;padding-bottom: 4px;height: 152px;}
+.cont3 dl dt,.cont2 dl dt,.cont4 dl dt{padding-top: 28px;padding-bottom: 4px;}
 .cont3 dl dd,.cont2 dl dd,.cont4 dl dd{font-size: 24px;color: #333333;line-height: 40px;}
 /*
  * vip
@@ -1668,9 +1668,12 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
 .vip_prowValue_grade_box dl.grade3.active dt {background: url(../img/icon_vip3_active.png) no-repeat center;}
 .vip_prowValue_grade_box dl.grade4.active dt {background: url(../img/icon_vip4_active.png) no-repeat center;}
 
+
+
 .vip_prowValue_grade_box .line_box{width: 96px;height: 8px;border-radius: 4px;background: #ddd;margin-top: 16px;}
 .vip_prowValue_grade_box .line_box.active{background: url(../img/line_now.png) no-repeat center;height: 26px;margin-top: 7px;}
 
+.vip_prowValue_grade_box .float_left:last-child .line_box{display: none;}
 
 .vip_main_icon .vip_main_icon_tit{position: relative;}
 .vip_main_icon .vip_main_icon_tit.noactive:before{display: inline;content: '当前没有活动';position: absolute;top:0;left: 0;font-size:24px ;color: #999999;padding-left: 30px;}

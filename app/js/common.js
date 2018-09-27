@@ -52,9 +52,9 @@ var common={
 			window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+common.appid[common.websiteNode]+"&redirect_uri="+common.httpData[common.websiteNode]+"&response_type=code&scope=snsapi_userinfo&state=gss&connect_redirect=1#wechat_redirect"
 		}else{
 			if (url.indexOf("?") > 1) {
-				window.location.href = url+"&v=0.1";
+				window.location.href = url+"&v=0927";
 			}else{
-				window.location.href = url+"?v=0.1";
+				window.location.href = url+"?v=0927";
 			}
 			
 		}
@@ -121,7 +121,7 @@ var common={
 	isApp : function(){
 		var 
 		ua = navigator.userAgent.toLowerCase();
-		return ua.match(/grh_app/i) == 'grh_app';
+		return ua.match(/gss_app/i) == 'gss_app';
 	},
 	height:function(){
 		return 
