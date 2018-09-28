@@ -639,14 +639,15 @@ $(document).ready(function(){
 				var h0=h1=h2=h3='',//定义四个里面的内容；
 					domArr;//定义要操作的元素；
 				
-				h0 = '<span class="color_f27c32">'+v.orderMoney+'</span>元';
-				h1 = +v.shouldPayMoney+"元";
+				h0 = '<span class="color_f27c32">'+(parseFloat(v.orderMoney).toFixed(2))+'</span>元';
+				h1 = (+v.shouldPayMoney).toFixed(2)+"元";
 				
-				h2 = '-'+((v.goodsDiscountMoney==''?0:parseFloat(v.goodsDiscountMoney))+(v.vipMoney==''?0:parseFloat(v.vipMoney))+(v.offMoney == '' ? 0: parseFloat(v.offMoney))+(v.coupons.couponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.couponInfo.couponMoney))+(v.coupons.goodCouponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.goodCouponInfo.couponMoney))+(v.coupons.typeCouponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.typeCouponInfo.couponMoney)));
+				h2 = '-'+(((v.goodsDiscountMoney==''?0:parseFloat(v.goodsDiscountMoney))+(v.vipMoney==''?0:parseFloat(v.vipMoney))+(v.offMoney == '' ? 0: parseFloat(v.offMoney))+(v.coupons.couponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.couponInfo.couponMoney))+(v.coupons.goodCouponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.goodCouponInfo.couponMoney))+(v.coupons.typeCouponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.typeCouponInfo.couponMoney)))).toFixed(2);
+				
 				if ((v.orderStatus == 3 && v.isGoToPay == 1) || v.orderStatus=='4') {
-					h3 = parseFloat(v.realPayMoney)+'元';
+					h3 = (parseFloat(v.realPayMoney)).toFixed(2)+'元';
 				}else{
-					h3 = (parseFloat(v.realPayMoney)+parseFloat(h2))+'元';
+					h3 = ((parseFloat(v.realPayMoney)+parseFloat(h2))).toFixed(2)+'元';
 				}
 				h2 = h2+'元';
 				if (v.orderStatus=='1') {
@@ -659,6 +660,7 @@ $(document).ready(function(){
 					domArr = $('.order_details_money_details');
 				}else if (v.orderStatus=='-1') {
 				}
+				
 				//UI操作
 				domArr && domArr.removeClass("hidden");
 				//订单的金额初始化
@@ -694,7 +696,7 @@ $(document).ready(function(){
 			coupon_box:function(){
 				var v= pub.couponListDat;
 				var domCoupon =  $('.order_details_coupon_box1'),//优惠卷
-					domCoupon1 = $('。order_details_coupon_box11'),//优惠卷对应下方的提示
+					domCoupon1 = $('.order_details_coupon_box11'),//优惠卷对应下方的提示
 					domOff =  $('.order_details_coupon_box2'),//优惠策略
 					domVip =  $('.order_details_coupon_box3'),//vip优惠
 					domGoodsDiscount =  $('.order_details_coupon_box4'),//其他优惠
@@ -1044,11 +1046,12 @@ $(document).ready(function(){
 					title='选择商品类目卷（多选）'
 				}
 				pub.orderDetails.order_view.couponList.pageInit(v,pub.couponType);
+				
 				pub.switchInput(title,'.order_details','.select_coupon' ,function(){
 					if (pub.couponType == 1) {
 						$(".order_coupon_header_right").show();
 					}
-					$('html').scrollTop(0)
+					$('html,body').scrollTop(0)
 				});
 			})
 			$(window).load(function(){
@@ -1155,7 +1158,6 @@ $(document).ready(function(){
 						pub.couponListDat.coupons.typeCouponInfo.couponMoney = couponMoney;
 						pub.couponListDat.coupons.typeCouponInfo.selectId = selected;
 					}
-					console.log(couponMoney)
 					pub.orderDetails.order_view.couponList.init();
 					pub.orderDetails.order_view.order_money();
 					pub.switchInput('订单详情','.select_coupon','.order_details' ,function(){

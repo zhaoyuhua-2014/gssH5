@@ -347,6 +347,7 @@ $(document).ready(function(){
 		firstapi:function(){
 			common.ajaxPost({
 				method:pub.method[0],
+				firmId:pub.firmId,
 				websiteNode:pub.websiteNode
 			},function(data){
 				if (data.statusCode == 100000) {
@@ -357,6 +358,7 @@ $(document).ready(function(){
 		twoapi:function(obj){
 			common.ajaxPost({
 				method:pub.method[1],
+				firmId:pub.firmId,
 				websiteNode:pub.websiteNode,
 				typeCode:pub.twoTypecode
 			},function(data){
@@ -369,6 +371,7 @@ $(document).ready(function(){
 		goodsapi:function(obj){
 			common.ajaxPost({
 				method:pub.method[2],
+				firmId:pub.firmId,
 				websiteNode:pub.websiteNode,
 				typeCode:pub.goodsTypecode,
 				pageNo:pub.pageNo,
@@ -451,7 +454,7 @@ $(document).ready(function(){
 				html2 +='</dt>'
 				html2 +='<dd>'		
 				html2 +='<h3 class="moreGoods_goods_name">'+v[i].goodsName+'</h3>'
-				if (v[i].vipGrade > 0) {
+				/*if (v[i].vipGrade > 0) {
 					if (v[i].maxCount) {
 						html2 +='<p class="moreGoods_goods_text">限购'+v[i].maxCount+'件</p>'
 					}else{
@@ -459,18 +462,36 @@ $(document).ready(function(){
 					}
 	            }else{
 	            	html2 +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'
-	            }
-				//html2 +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'
+	            }*/
+				html2 +='<p class="moreGoods_goods_text">'+v[i].goodsShows+'</p>'
 				if (pub.logined) {
 					html2 +='<p class="moreGoods_goods_price">'
 					if (v[i].vipGrade > 0) {
-						html2 +='<span class="fontColor">'+v[i].priceDesc+'</span><del>'+v[i].nomalPrice+'</del>'
+						html2 +='<span class="fontColor">'+v[i].wholeGssPrice+'</span>元/'+v[i].wholePriceSize+'  <del>'+v[i].nomalPrice+'元/'+v[i].wholePriceSize+'</del>'
 		            }else{
 		            	html2 +='<span class="fontColor">'+v[i].gssPrice+'</span>元/'+v[i].priceUnit+'&nbsp; &nbsp;<span>'+v[i].priceDesc+'</span>'
 		            }
 					
 					html2 +='</p>'
 					html2 +='<div class="moreGoods_goods_num">'
+					/*if (v[i].vipGrade > 0) {
+						
+		            }else{
+		            	html2 +='<div class="moreGoods_goods_icon">'
+							if (v[i].isSale) {
+								html2 +=' <span class = "icon_cu"></span>'
+							}
+							if (v[i].isNew) {
+								html2 +=' <span class = "icon_ji"></span>'
+							}
+							if (v[i].isRecommend) {
+								html2 +=' <span class = "icon_jian"></span>'
+							}
+							if (v[i].isHot) {
+								html2 +=' <span class = "icon_re"></span>'
+							}
+						html2 +='</div>'
+		            }*/
 					html2 +='<div class="moreGoods_goods_icon">'
 						if (v[i].isSale) {
 							html2 +=' <span class = "icon_cu"></span>'
@@ -487,19 +508,45 @@ $(document).ready(function(){
 					html2 +='</div>'
 					html2 +='<div class="moreGoods_goods_number clearfloat">'
 					
-					if ((parseInt(v[i].initNum) - parseInt(v[i].saleNum)) <= 0) {
-						html2+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">已售罄</b>'
-					}else{
-						goodnum=callbackgoodsnumber(v[i].id);
-						if (goodnum!='0') {
-							html2 +='<span class="goodsNumber_min"><img src="../img/btn_m@2x.png"/></span>'
-							html2 +='<span class="goodsNumber fontColor" dataID="'+v[i].id+'">'+goodnum+'</span>'
+					if (v[i].vipGrade > 0) {
+						if (v[i].state == 1) {
+							if ((parseInt(v[i].initNum) - parseInt(v[i].saleNum)) <= 0) {
+								html2+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">已售罄</b>'
+							}else{
+								goodnum=callbackgoodsnumber(v[i].id);
+								if (goodnum!='0') {
+									html2 +='<span class="goodsNumber_min"><img src="../img/btn_m@2x.png"/></span>'
+									html2 +='<span class="goodsNumber fontColor" dataID="'+v[i].id+'">'+goodnum+'</span>'
+								} else{
+									html2 +='<span class="goodsNumber_min hidden"><img src="../img/btn_m@2x.png"/></span>'
+									html2 +='<span class="goodsNumber fontColor hidden" dataID="'+v[i].id+'"></span>'
+								}
+								html2 +='<span class="goodsNumber_max"><img src="../img/btn_a@2x.png"/></span>'
+							}
 						} else{
-							html2 +='<span class="goodsNumber_min hidden"><img src="../img/btn_m@2x.png"/></span>'
-							html2 +='<span class="goodsNumber fontColor hidden" dataID="'+v[i].id+'"></span>'
+							if (v[i].state == 2) {
+								html2+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">不是VIP</b>'
+							}
+							if (v[i].state == 3) {
+								html2+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">等级不足</b>'
+							}
 						}
-						html2 +='<span class="goodsNumber_max"><img src="../img/btn_a@2x.png"/></span>'
-					}
+		            }else{
+		            	if ((parseInt(v[i].initNum) - parseInt(v[i].saleNum)) <= 0) {
+							html2+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">已售罄</b>'
+						}else{
+							goodnum=callbackgoodsnumber(v[i].id);
+							if (goodnum!='0') {
+								html2 +='<span class="goodsNumber_min"><img src="../img/btn_m@2x.png"/></span>'
+								html2 +='<span class="goodsNumber fontColor" dataID="'+v[i].id+'">'+goodnum+'</span>'
+							} else{
+								html2 +='<span class="goodsNumber_min hidden"><img src="../img/btn_m@2x.png"/></span>'
+								html2 +='<span class="goodsNumber fontColor hidden" dataID="'+v[i].id+'"></span>'
+							}
+							html2 +='<span class="goodsNumber_max"><img src="../img/btn_a@2x.png"/></span>'
+						}
+		            }
+					
 					html2 +='</div>'
 					html2 +='</div>'
 				} else{
@@ -855,7 +902,12 @@ $(document).ready(function(){
 			var v = data.data;
 			//展示商品信息1111111111111
 			pub.html = ''
-			pub.html +='<h3 class="goodsDetails_box1_title">'+v.goodsName+'</h3>'
+			if (v.vipGrade > 0) {
+				pub.html +='<h3 class="goodsDetails_box1_title vip'+v.vipGrade+'">'+v.goodsName+'</h3>'
+			}else{
+				pub.html +='<h3 class="goodsDetails_box1_title">'+v.goodsName+'</h3>'
+			}
+			
 			pub.html +='<div class="goodsDetails_box1_ionc">'
 				
 				if (v.isSale) {
@@ -876,21 +928,30 @@ $(document).ready(function(){
 			//商品信息展示222222222222222222222222222222222222222
 			pub.html+='<div class="goodsDetails_text">'+v.goodsShows+'</div>'
 			pub.html+='<div class="moreGoods_goods_number clearfloat">'
-			console.log($.browser)
+				if (v.vipGrade > 0) {
+					if (v.state == 1) {
+						if((parseInt(v.initNum) - parseInt(v.saleNum))<=0){
+							pub.html+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block">已售罄</b>'
+						}else{
+							pub.html+='	<span class="goodsNumber_min"><img src="../img/btn_m@2x.png"/></span>'
+							pub.html+='	<span class="goodsNumber fontColor" dataID="'+data.data.id+'">'+pub.goodnum+'</span>'
+							pub.html+='	<span class="goodsNumber_max"><img src="../img/btn_a@2x.png"/></span>'
+						}
+					}else if (v.state == 2){
+						pub.html+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block">不是VIP</b>'
+					}else if (v.state == 3){
+						pub.html+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block">等级不足</b>'
+					}
+				}else{
 					if((parseInt(v.initNum) - parseInt(v.saleNum))<=0){
 						pub.html+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block">已售罄</b>'
 					}else{
 						pub.html+='	<span class="goodsNumber_min"><img src="../img/btn_m@2x.png"/></span>'
 						pub.html+='	<span class="goodsNumber fontColor" dataID="'+data.data.id+'">'+pub.goodnum+'</span>'
 						pub.html+='	<span class="goodsNumber_max"><img src="../img/btn_a@2x.png"/></span>'
-						/*pub.html+='	<span><div class="goodsNumber_min sprite btn_m"></div></span>'
-						if ($.browser.safari) {
-							pub.html+='	<span class="goodsNumber fontColor" dataID="'+v.id+'">'+pub.goodnum+'</span>'
-						}else{
-							pub.html+='	<span class="goodsNumber fontColor" dataID="'+v.id+'" style="position: relative;">'+pub.goodnum+'</span>'
-						}
-						pub.html+='	<span><div class="goodsNumber_max sprite btn_a"></div></span>'*/
 					}
+				}
+				
 			pub.html+='</div>'
 			$('.goodsDetails_box1_center_li1').append(pub.html);
 			//商品信息展示333333333333333333333333333333333333333333333333
@@ -905,8 +966,14 @@ $(document).ready(function(){
 				} else{
 					$(".goodsNumber_min,.goodsNumber").removeClass("hidden");
 				}
-				$(".goodsDetails_Unit_Price").html("单价：<span class='color_f27c32'>"+v.gssPrice+"</span>元/"+v.priceUnit);
-				$(".goodsDetails_Total_Price").html("总价："+v.wholeGssPrice+"元/"+v.wholePriceSize);				
+				if (v.vipGrade > 0) {
+					$(".goodsDetails_Unit_Price").html("单价：<span class='color_f27c32'>"+v.gssPrice+"</span>元/"+v.priceUnit + "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>"+v.nomalPrice+"元/"+v.priceUnit + "</del>");
+					$(".goodsDetails_Total_Price").html("总价："+v.wholeGssPrice+"元/"+v.wholePriceSize+ "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>"+v.wholeNomalPrice+"元/"+v.wholePriceSize + "</del>");		
+				}else{
+					$(".goodsDetails_Unit_Price").html("单价：<span class='color_f27c32'>"+v.gssPrice+"</span>元/"+v.priceUnit + "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>"+v.gssPrice+"元/"+v.priceUnit + "</del>");
+					$(".goodsDetails_Total_Price").html("总价："+v.wholeGssPrice+"元/"+v.wholePriceSize);	
+				}
+						
 			}
 			$('.goodsDetails_kucun').addClass("hidden");
 			$(".goodsDetails_Place").html("产地："+v.sourceCityName);
@@ -1117,12 +1184,30 @@ $(document).ready(function(){
 		        html +='        <dl class="line-normal-wrapper clearfloat">'
 	            html +='            <dt class="line-normal-avatar-wrapper">'
 	            html +='            	<img src="'+o.goodsLogo+'"/>'
+	            if (o.vipGrade > 0) {
+	            	html += '<span class = "icon_vip'+o.vipGrade+'"></span>'
+	            }
 	            html +='            </dt>'
 	            html +='            <dd class="line-normal-info-wrapper">'
 	            html +='               <div class="often_shop_goods_top clearfloat">'
 				html +='					<p class="often_shop_goods_tit">'+o.goodsName+'</p>'
 				html +='					<p class="often_shop_goods_icon">'
-				
+				/*if (o.vipGrade > 0) {
+	            	
+	            }else{
+	            	if (o.isSale) {
+						html +=' <span class = "icon_cu"></span>'
+					}
+					if (o.isNew) {
+						html +=' <span class = "icon_ji"></span>'
+					}
+					if (o.isRecommend) {
+						html +=' <span class = "icon_jian"></span>'
+					}
+					if (o.isHot) {
+						html +=' <span class = "icon_re"></span>'
+					}
+	            }*/
 				if (o.isSale) {
 					html +=' <span class = "icon_cu"></span>'
 				}
@@ -1137,27 +1222,83 @@ $(document).ready(function(){
 				}
 				html +='					</p>'
 				html +='				</div>'
-	            html +='               <p class="often_shop_show">'+o.goodsShows+'</p>'
+				/*if (o.vipGrade > 0) {
+	            	if (o.maxCount) {
+						html +='			<p class="often_shop_show">限购'+o.maxCount+'件</p>'
+					}else{
+						html +='<p class="often_shop_show"> </p>'
+					}
+	            }else{
+	            	html +='               <p class="often_shop_show">'+o.goodsShows+'</p>'
+	            }*/
+				html +='               <p class="often_shop_show">'+o.goodsShows+'</p>'	
+	            
 				html +='				<div class="often_shop_NumPir" data="'+d[i].goodsInfoId+'" dataName="'+o.goodsName+'" dataPir="'+o.wholeGssPrice+'" wholePriceSize="'+o.wholePriceSize+'" gssPrice="'+o.gssPrice+'" priceUnit="'+o.priceUnit+'" packageNum="'+o.packageNum+'" maxCount="'+o.maxCount+'" goodType="'+o.bussinessType+'" score="'+o.score+'">'
 				html +='					<div class="os_pir">'
-				html +='						<span class="often_shop_color">'+o.gssPrice+'</span>元/'+o.priceUnit+'&nbsp;&nbsp;<span>'+o.priceDesc+'</span>'
+				if (o.vipGrade > 0) {
+	            	html +='						<span class="often_shop_color">'+o.wholeGssPrice+'</span>元/'+o.wholePriceSize+'&nbsp;&nbsp;<del>'+o.nomalPrice+'元/'+o.wholePriceSize+'</del>'
+	            }else{
+	            	html +='						<span class="often_shop_color">'+o.gssPrice+'</span>元/'+o.priceUnit+'&nbsp;&nbsp;<span>'+o.priceDesc+'</span>'
+	            }
+				
 				html +='					</div>'
 				html +='					<div class="os_Num">'
-				goodnum=callbackgoodsnumber(d[i].goodsInfoId);
-				if (goodnum!='0') {
-					html +='					<button class="goodsNumber_min">'
-					html +='						<img src="../img/btn_m@2x.png"/>'
-					html +='					</button>'
-					html +='					<span class="goodsNumber fontColor" dataID="'+d[i].goodsInfoId+'">'+goodnum+'</span>'
-				} else{
-					html +='					<button class="goodsNumber_min" style="display: none;">'
-					html +='						<img src="../img/btn_m@2x.png"/>'
-					html +='					</button>'
-					html +='					<span class="goodsNumber fontColor" dataID="'+d[i].goodsInfoId+'" style="display: none;"></span>'
-				}
-				html +='						<button class="goods_Number_max">'
-				html +='						    <img src="../img/btn_a@2x.png"/>'
-				html +='					    </button>'
+				if (o.vipGrade > 0) {
+					if (o.state == 1) {
+						if ((parseInt(o.initNum) - parseInt(o.saleNum)) <= 0) {
+							html2+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">已售罄</b>'
+						}else{
+							
+						goodnum=callbackgoodsnumber(o.id);
+						if (goodnum!='0') {
+							html +='					<button class="goodsNumber_min">'
+							html +='						<img src="../img/btn_m@2x.png"/>'
+							html +='					</button>'
+							html +='					<span class="goodsNumber fontColor" dataID="'+o.id+'">'+goodnum+'</span>'
+						} else{
+							html +='					<button class="goodsNumber_min" style="display: none;">'
+							html +='						<img src="../img/btn_m@2x.png"/>'
+							html +='					</button>'
+							html +='					<span class="goodsNumber fontColor" dataID="'+o.id+'" style="display: none;"></span>'
+						}
+						html +='						<button class="goods_Number_max">'
+						html +='						    <img src="../img/btn_a@2x.png"/>'
+						html +='					    </button>'
+						}
+					} else{
+						if (o.state == 2) {
+							html+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">不是VIP</b>'
+						}
+						if (o.state == 3) {
+							html+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">等级不足</b>'
+						}
+					}
+	            }else{
+	            	if ((parseInt(o.initNum) - parseInt(o.saleNum)) <= 0) {
+						html+= '<b style="color:red;text-align:center;width:100px;height:64px;line-height:64px;display:inline-block;font-size: 24px;">已售罄</b>'
+					}else{
+						
+						goodnum=callbackgoodsnumber(o.id);
+						if (goodnum!='0') {
+							html +='					<button class="goodsNumber_min">'
+							html +='						<img src="../img/btn_m@2x.png"/>'
+							html +='					</button>'
+							html +='					<span class="goodsNumber fontColor" dataID="'+o.id+'">'+goodnum+'</span>'
+						} else{
+							html +='					<button class="goodsNumber_min" style="display: none;">'
+							html +='						<img src="../img/btn_m@2x.png"/>'
+							html +='					</button>'
+							html +='					<span class="goodsNumber fontColor" dataID="'+o.id+'" style="display: none;"></span>'
+						}
+						html +='						<button class="goods_Number_max">'
+						html +='						    <img src="../img/btn_a@2x.png"/>'
+						html +='					    </button>'
+					}
+	            }
+	            
+				
+				
+				
 				html +='					</div>'
 				html +='				</div>'
 	            html +='            </dd>'

@@ -1355,7 +1355,7 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
 
 .moreGoods_goods_detaile{padding-top: 20px;}
 .moreGoods_goods_detaile dt{width: 160px;height: 160px;position: relative;background: url(../img/default_huodong_pic.png) no-repeat center; background-size: 100%;padding-top: 0;}
-.moreGoods_goods_detaile dd{padding-left: 22px;width: 440px;margin-top: -4px;padding-top: 0;}
+.moreGoods_goods_detaile dd{padding-left: 22px;width: 440px;margin-top: -4px;padding-top: 0;height: 210px;}
 
 .search_goods dl dt{width: 256px;background: url(../img/default_huodong_pic.png) no-repeat center; background-size: 100%;padding-top: 0;}
 .search_goods dl dd{width: 494px;padding-left: 20px;}
@@ -1759,3 +1759,24 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
 .select_coupon .coupon_main_available .coupon_status1.no {background:#fff url('../img/coupon_active_no.png') no-repeat right top;}
 
 .select_coupon .coupon_main_available .coupon_status1.no.active{background:#fff url('../img/coupon_active.png') no-repeat right top;}
+
+
+/*
+ 搜索页面
+ * */
+.search_goods dl dt{position: relative;}
+
+.line-normal-avatar-wrapper{position: relative;}
+
+.line-normal-avatar-wrapper .icon_vip1,.line-normal-avatar-wrapper .icon_vip2 ,.line-normal-avatar-wrapper .icon_vip3 ,.line-normal-avatar-wrapper .icon_vip4{
+	left: 20px;
+	top: 20px;
+}
+.goodsDetails_box1_title.vip1:after{display: inline-block;content: ' ';width: 62px;height: 32px;position: relative;background: url(../img/vip_icon1_square_active.png);left: 20px;}
+.goodsDetails_box1_title.vip2:after{display: inline-block;content: ' ';width: 62px;height: 32px;position: relative;background: url(../img/vip_icon2_square_active.png);left: 20px;}
+.goodsDetails_box1_title.vip3:after{display: inline-block;content: ' ';width: 62px;height: 32px;position: relative;background: url(../img/vip_icon3_square_active.png);left: 20px;}
+.goodsDetails_box1_title.vip4:after{display: inline-block;content: ' ';width: 62px;height: 32px;position: relative;background: url(../img/vip_icon4_square_active.png);left: 20px;}
+
+.goodsDetails_box_left, .goodsDetails_box_right{
+	height: auto;line-height: 40px;padding: 8px 0;
+}

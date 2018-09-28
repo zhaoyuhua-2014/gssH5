@@ -13,9 +13,6 @@ $(document).ready(function(){
 		vipPrivilege:[],
 		userVipInfo:{},
 	}
-	
-	
-	
 	/*
 	使用VUe的双向数据绑定
 	实现页面的状态管理
@@ -416,7 +413,7 @@ $(document).ready(function(){
 
 function test4(o){
 	
-	var obj = {
+   var obj = {
     	tokenId:JSON.parse(o.cuserInfo).data.tokenId,
     	secretKey:JSON.parse(o.cuserInfo).data.secretKey,
     	cuserInfo:JSON.parse(o.cuserInfo).data.cuserInfo,
@@ -424,5 +421,4 @@ function test4(o){
     	system:JSON.parse(o.system).data,
     }
 	pub.appInit(obj)
-   	
 }
