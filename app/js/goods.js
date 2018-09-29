@@ -970,7 +970,7 @@ $(document).ready(function(){
 					$(".goodsDetails_Unit_Price").html("单价：<span class='color_f27c32'>"+v.gssPrice+"</span>元/"+v.priceUnit + "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>"+v.nomalPrice+"元/"+v.priceUnit + "</del>");
 					$(".goodsDetails_Total_Price").html("总价："+v.wholeGssPrice+"元/"+v.wholePriceSize+ "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>"+v.wholeNomalPrice+"元/"+v.wholePriceSize + "</del>");		
 				}else{
-					$(".goodsDetails_Unit_Price").html("单价：<span class='color_f27c32'>"+v.gssPrice+"</span>元/"+v.priceUnit + "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<del>"+v.gssPrice+"元/"+v.priceUnit + "</del>");
+					$(".goodsDetails_Unit_Price").html("单价：<span class='color_f27c32'>"+v.gssPrice+"</span>元/"+v.priceUnit );
 					$(".goodsDetails_Total_Price").html("总价："+v.wholeGssPrice+"元/"+v.wholePriceSize);	
 				}
 						

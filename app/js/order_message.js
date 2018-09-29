@@ -481,7 +481,7 @@ $(document).ready(function(){
 			$('.order_details_top_code dd').eq(0).html(v.orderCode).end().eq(1).html(pub.status[v.orderStatus + 1]);
 			$odtd.eq(1).find('dt').html(arr1[1]).end().find("dd").html(v.createTime);
 			$odtd.eq(2).find('dt').html(pub.data[v.orderStatus +1].title).end().find('dd').html(v[pub.data[v.orderStatus +1].time]);
-			
+			console.log(v.orderStatus)
 			if (v.orderStatus=='-1') {
 				$odtd.eq(3).addClass("hidden");
 			}else if (v.orderStatus=='1' || v.orderStatus=='2') {
@@ -507,7 +507,7 @@ $(document).ready(function(){
 				html+='		<dd class="order_details_goods_right">总价:'+o[i].costMoney+'元</dd>'
 				html+='	</dl>'
 				if ((v.orderStatus=='3'||v.orderStatus=='4')) {
-					html+='	<div class="order_details_goods_ clearfloat">'
+					html+='	<div class="order_details_goods_ show clearfloat">'
 					html+='		<dl class="odg_left clearfloat">'
 					html+='			<dt>实际总重:</dt>'
 					html+='			<dd><span>'+o[i].afterWholePriceSize+'</span>'+o[i].priceUnit+'</dd>'
@@ -561,26 +561,21 @@ $(document).ready(function(){
 						selectId:v.goodsCoupon.join(","),
 						selectData:null,
 						couponMoney:v.goodsCouponMoney ? v.goodsCouponMoney : 0,//优惠卷金额
-						/*useable:data.data.guseable,//可用列表
-						unusable:data.data.gunusable//不可用列表*/
-						useable:data.data.useable,//可用列表
-						unusable:data.data.unusable//不可用列表
+						useable:data.data.guseable,//可用列表
+						unusable:data.data.gunusable//不可用列表
 					},
 					//类目优惠卷
 					typeCouponInfo:{
 						selectId:v.goodsTypeCoupon.join(","),
 						selectData:null,
 						couponMoney:v.goodsTypeCouponMoney ? v.goodsTypeCouponMoney : 0,//优惠卷金额
-						/*useable:data.data.tuseable,//可用列表
-						unusable:data.data.tunusable//不可用列表*/
-						useable:data.data.useable,//可用列表
-						unusable:data.data.unusable//不可用列表
+						useable:data.data.tuseable,//可用列表
+						unusable:data.data.tunusable//不可用列表
 					},
 				},
 				
 			}
 			pub.couponListDat = orderViewData;
-			console.log(pub.couponListDat)
 			pub.orderDetails.order_view.init()
 			
 			
@@ -596,7 +591,6 @@ $(document).ready(function(){
 			init:function(){
 				var v = pub.couponListDat;
 				
-				console.log(v)
 				if (v.orderStatus == 3) {
 					if (v.isGoToPay == 1) {
 						if (v.couponInfo != null) {
@@ -632,6 +626,7 @@ $(document).ready(function(){
 				pub.orderDetails.order_view.coupon_box()
 			},
 			order_money:function(){
+				
 				var v= pub.couponListDat;
 				//数据处理
 				var domMoneyBox = $('.order_details_money_details dl'),
@@ -794,7 +789,6 @@ $(document).ready(function(){
 			couponList:{
 				init:function(d,c){
 					var v = pub.couponListDat,coupons = v.coupons;
-					console.log(v)
 					if (d) {
 						var _a = pub.orderDetails.checkNotEmptyZero(coupons.couponInfo.couponMoney),
 							_b = pub.orderDetails.checkNotEmptyZero(coupons.goodCouponInfo.couponMoney),
@@ -832,7 +826,6 @@ $(document).ready(function(){
 						
 						//对于订单详情里面优惠卷的计算初始化
 						function fun(sel,v){
-							console.log(v)
 							var useable = v.useable,
 								unusable = v.unusable,
 								selectId = v.selectId,
@@ -884,15 +877,6 @@ $(document).ready(function(){
 						$(".coupon_main_unAvailable_box").hide();
 					}
 					
-						
-						
-					if (type == 2) {
-						pub.couponListDat.coupons.goodCouponInfo.couponMoney = pub.orderDetails.order_view.couponList.getCouponMoney();
-					}else if(type == 3){
-						pub.couponListDat.coupons.typeCouponInfo.couponMoney = pub.orderDetails.order_view.couponList.getCouponMoney();
-					}else if (type == 1){
-						
-					}
 					
 					if (type == 2 || type == 3) {
 						$(".footer-wrap").is(".hidden") && $(".footer-wrap").removeClass("hidden")
@@ -904,7 +888,6 @@ $(document).ready(function(){
 					}else{
 						$(".footer-rigth").attr({'data-selected':''});
 					}
-					console.log(couponMoney)
 					if (couponMoney) {
 						couponMoney = parseFloat(couponMoney).toFixed(2)
 						$(".footer-rigth").attr({'data-money':couponMoney});
@@ -920,7 +903,6 @@ $(document).ready(function(){
 					/*
 					 将选择的优惠券   转化为一个数组
 					 * */
-					console.log(id)
 					if (id instanceof Array) {
 						arr = id;
 					}else{
@@ -937,7 +919,6 @@ $(document).ready(function(){
 					}
 					
 					for (var i = 0; i < l; i++) {
-						console.log()
 						if (pub.couponType == 2 || pub.couponType == 3) {
 							if (arr.indexOf(d[i].id) != -1) {
 								html+='<dl class="clearfloat no coupon_status'+d[i].status+' active">'
@@ -1104,16 +1085,9 @@ $(document).ready(function(){
 						_this.addClass("active").siblings().removeClass("active");
 						$(".select_coupon_top").removeClass("active");
 					}
-					/*pub.couponListDat = $.extend({},pub.couponListDat,{
-						selectData:pub.couponListDat.useable[index],
-						couponMoney:pub.couponListDat.useable[index].couponMoney,
-					});*/
 					
 					pub.couponListDat.coupons.couponInfo.selectId = pub.couponListDat.coupons.couponInfo.useable[index].id;
 					pub.couponListDat.coupons.couponInfo.couponMoney = pub.couponListDat.coupons.couponInfo.useable[index].couponMoney;
-					
-					
-					
 					
 					pub.orderDetails.order_view.couponList.init();
 					pub.orderDetails.order_view.order_money();
@@ -1144,7 +1118,6 @@ $(document).ready(function(){
 					$(".footer-rigth").attr({"data-selected":strId,"data-money":allConponMoney});
 					$(".footer-left").find("span").html(allConponMoney+"元")
 				}
-				
 			});
 			//点击提交按钮
 			$(".order_footer_right").on("click",function(){

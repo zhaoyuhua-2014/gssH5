@@ -286,7 +286,6 @@ $(document).ready(function(){
 		},
 		userVipInfo:function(v){
 			if (v) {
-				v['vip'] = '-1'
 				pub.Vue.userVipInfo = v;
 			}
 		}
