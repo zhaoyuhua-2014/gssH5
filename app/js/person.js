@@ -173,7 +173,7 @@ $(document).ready(function(){
 		    },
 		    getLeft:function(){
 		    	if (this.getWidth > 617) {
-		    		return '617px'
+		    		return '557px'
 		    	}else if(this.getWidth < 85){
 		    		return '85px'
 		    	}else{

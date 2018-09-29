@@ -98,40 +98,48 @@ $(document).ready(function(){
 			methods: {
 				goToNext:function(item){
 					var jumpUrl = '';
-					console.log(this.isApp)
-					if (this.isApp) {
-						var jsonObj ={};
-						if (item.type == 1 || item.type == 2 || item.type == 3) {
-							jsonObj = {
-								type:2,
-								methodName:'goToReceiveCouponVCWithType',
-								methodParamters:{
-									type:item.type,
-									linkUrl:item.linkUrl
-								}
-							};
-						}else if (item.type == 4){
-							jsonObj = {
-								type:2,
-								methodName:'goToMoreGoods',
-								methodParamters:{
-									type:item.type,
-									linkUrl:item.linkUrl
-								}
-							};
-						}
-						appInteractivity(jsonObj)
-					}else{
-						if (item.type == 1 || item.type == 2 || item.type == 3) {
-							common.jump("vip_ticket_center.html?type="+item.type);
-						}else if (item.type == 4){
-							var code = '';
-							if (item.linkUrl && item.linkUrl.split("&")[1] && item.linkUrl.split("&")[1].length == 4 ) {
-								code = item.linkUrl.split("&")[1];
-								common.jump("moreGoods.html?typeCode="+code)
-							}else{
-								common.jump("moreGoods.html")
+					if (item.state == 0) {
+						if (this.isApp) {
+							var jsonObj ={};
+							if (item.type == 1 || item.type == 2 || item.type == 3) {
+								jsonObj = {
+									type:2,
+									methodName:'goToReceiveCouponVCWithType',
+									methodParamters:{
+										type:item.type,
+										linkUrl:item.linkUrl
+									}
+								};
+							}else if (item.type == 4){
+								jsonObj = {
+									type:2,
+									methodName:'goToMoreGoods',
+									methodParamters:{
+										type:item.type,
+										linkUrl:item.linkUrl
+									}
+								};
 							}
+							appInteractivity(jsonObj)
+						}else{
+							if (item.type == 1 || item.type == 2 || item.type == 3) {
+								common.jump("vip_ticket_center.html?type="+item.type);
+							}else if (item.type == 4){
+								var code = '';
+								if (item.linkUrl && item.linkUrl.split("&")[1] && item.linkUrl.split("&")[1].length == 4 ) {
+									code = item.linkUrl.split("&")[1];
+									common.jump("moreGoods.html?typeCode="+code)
+								}else{
+									common.jump("moreGoods.html")
+								}
+							}
+						}
+					}else{
+						if (item.state == 2) {
+							common.prompt("不是VIP！")
+						}
+						if (item.state == 3) {
+							common.prompt("没有活动！")							
 						}
 					}
 				},
@@ -209,7 +217,8 @@ $(document).ready(function(){
 		vip_privilege_list:{
 			init:function(){
 				common.ajaxPost($.extend(pub.userBasicParam,{
-					method:'vip_privilege_list'
+					method:'vip_privilege_list',
+					firmId:pub.firmId
 				}),function(data){
 					if (data.statusCode == "100000") {
 						pub.vip.vip_privilege_list.apiData(data);

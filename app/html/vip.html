@@ -24,7 +24,7 @@
 				<div class="vip_main_top" v-show="userVipInfo.monthExp">
 					<div class="vip_main_growValue" >
 						<div class="vip_growValue_top">
-							<span class="vip_growValue_tit">当月成长值</span><span class="vip_growValue_desc" v-text="'当月成长值为'+userVipInfo.firmMonthExp+',在积'+userVipInfo.needExp+'成长值可享受下个月VIP优惠'"></span>
+							<span class="vip_growValue_tit">当月成长值</span><span class="vip_growValue_desc" v-text="'当月成长值为'+userVipInfo.firmMonthExp+',再积'+userVipInfo.needExp+'成长值可享受下个月VIP优惠'"></span>
 						</div>
 						<div class="vip_growValue_progress">
 							<p class="growInfo_progressAll"></p>
@@ -32,7 +32,7 @@
 						</div>
 						<div class="vip_growValue_progress_subscript clearfloat">
 							<span class="float_left" v-text='0'></span>
-							<span class="float_right" v-text='userVipInfo.monthExp'></span>
+							<span class="float_right" v-text='userVipInfo.firmMonthExp > userVipInfo.monthExp ? userVipInfo.firmMonthExp : userVipInfo.monthExp'></span>
 						</div>
 					</div>
 					<div class="vip_main_growValue vip_grow_all" :class="{'active':userVipInfo.vip >0}" v-show="userVipInfo.monthExp">
@@ -44,7 +44,7 @@
 								<dl :class="['grade'+(index+1),{'active':userVipInfo.vipGrade >= (index+1)}]" >
 									<dt></dt><dd v-text="'成长值满'+item.end+'点'"></dd>
 								</dl>
-								<div class="line_box" :class="{'active':userVipInfo.vipGrade >= (index+1)}"></div>
+								<div class="line_box" :class="[{'active':userVipInfo.vipGrade >= (index+1)},{'active1':userVipInfo.vipGrade >= (index+2)}]"></div>
 							</div>
 						</div>
 					</div>
@@ -54,7 +54,7 @@
 						<div class="vip_main_icon_tit cont_tit" :class="{'noactive':isActive}">VIP特权</div>
 						<div class="vip_main_icon_boxs clearfloat">
 							<dl class="float_left" v-for="(item,index) in vipPrivilege" @click="goToNext(item)">
-								<dt><img :src="item.status > 1 ? item.onLogo : item.offLogo"/></dt>
+								<dt><img :src="item.status > 0 ? item.onLogo : item.offLogo"/></dt>
 								<dd v-text="item.name"></dd>
 							</dl>
 						</div>
@@ -124,8 +124,8 @@
 	<script src="../quote/mobile-util.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../quote/mdData.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../quote/layer.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/common.js?v=20180927" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/vip.js?v=20180928" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=20180929" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/vip.js?v=20180929" type="text/javascript" charset="utf-8"></script>
 	<!-- endbuild -->
 	
 	

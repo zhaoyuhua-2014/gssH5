@@ -594,11 +594,12 @@ $(document).ready(function(){
 				if (v.orderStatus == 3) {
 					if (v.isGoToPay == 1) {
 						if (v.couponInfo != null) {
-							pub.orderDetails.order_view.couponList.init(v);
+							
 							v.coupons.couponInfo.couponMoney = v.couponInfo.couponMoney;
 						}else{
 							v.coupons.couponInfo.couponMoney = 0;
 						}
+						pub.orderDetails.order_view.couponList.init();
 						$(".conpon_item_box").off("click");
 					}else{
 						var isEmpty1 = (v.coupons.couponInfo.useable && v.coupons.couponInfo.length !=0);
@@ -816,38 +817,44 @@ $(document).ready(function(){
 							}
 						}
 					} else{
+						console.log(v)
 						var couponInfo = coupons.couponInfo,
 							goodCoupon = coupons.goodCouponInfo,
 							typeCoupon = coupons.typeCouponInfo;
 						
-						fun('.conpon_item_box_coupon',couponInfo);
-						fun('.conpon_item_box_goodCoupon',goodCoupon);
-						fun('.conpon_item_box_typeCoupon',typeCoupon)
+						fun('.conpon_item_box_coupon',couponInfo,v);
+						fun('.conpon_item_box_goodCoupon',goodCoupon,v);
+						fun('.conpon_item_box_typeCoupon',typeCoupon,v)
 						
 						//对于订单详情里面优惠卷的计算初始化
-						function fun(sel,v){
+						function fun(sel,v,w){
 							var useable = v.useable,
 								unusable = v.unusable,
 								selectId = v.selectId,
 								couponMoney = v.couponMoney,
 								$ele = $(sel);
-							if (useable && useable.length !=0 ) {
-								if (selectId) {
-									if (selectId instanceof Array) {
-										if (selectId.length == 0) {
-											$ele.find('.order_details_coupon dd').html(useable.length+"张可用").attr('dataId',null)
+							if (w.orderStatus == 3 && w.isGoToPay == 1) {
+								$ele.find('.order_details_coupon dd').html("已绑定：-0.0元")
+							}else{
+								if (useable && useable.length !=0 ) {
+									if (selectId) {
+										if (selectId instanceof Array) {
+											if (selectId.length == 0) {
+												$ele.find('.order_details_coupon dd').html(useable.length+"张可用").attr('dataId',null)
+											}else{
+												$ele.find('.order_details_coupon dd').html("已选：-"+couponMoney+"元").attr('dataId',selectId.join(","))
+											}
 										}else{
-											$ele.find('.order_details_coupon dd').html("已选：-"+couponMoney+"元").attr('dataId',selectId.join(","))
+											$ele.find('.order_details_coupon dd').html("已选：-"+couponMoney+"元").attr('dataId',selectId)
 										}
 									}else{
-										$ele.find('.order_details_coupon dd').html("已选：-"+couponMoney+"元").attr('dataId',selectId)
+										$ele.find('.order_details_coupon dd').html(useable.length+"张可用").attr('dataId',null)
 									}
 								}else{
-									$ele.find('.order_details_coupon dd').html(useable.length+"张可用").attr('dataId',null)
+									$ele.find('.order_details_coupon dd').html("暂无可用优惠卷")
 								}
-							}else{
-								$ele.find('.order_details_coupon dd').html("暂无可用优惠卷")
 							}
+							
 						}
 					}
 					
