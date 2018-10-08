@@ -80,11 +80,11 @@ $(document).ready(function(){
 			      	}
 			    },
 			    isActive:function(){
-			    	var isTrue = false
+			    	var isTrue = true;
 			    	if (this.vipPrivilege) {
 			    		for (var i = 0; i < this.vipPrivilege.length ; i++ ) {
-			    			if (this.vipPrivilege[i].state > 1) {
-			    				isTrue = true;
+			    			if (this.vipPrivilege[i].state == 1) {
+			    				isTrue = false;
 			    				break;
 			    			}
 			    		}	
@@ -98,7 +98,7 @@ $(document).ready(function(){
 			methods: {
 				goToNext:function(item){
 					var jumpUrl = '';
-					if (item.state == 0) {
+					if (item.state == 1) {
 						if (this.isApp) {
 							var jsonObj ={};
 							if (item.type == 1 || item.type == 2 || item.type == 3) {

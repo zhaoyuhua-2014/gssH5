@@ -632,18 +632,18 @@ $(document).ready(function(){
 				//数据处理
 				var domMoneyBox = $('.order_details_money_details dl'),
 					domMoneyBox1 = $('.order_details_money');
-				var h0=h1=h2=h3='',//定义四个里面的内容；
-					domArr;//定义要操作的元素；
+				var h0=h1=h2=h3=h4='',//定义四个里面的内容；
+					domArr;1//定义要操作的元素；
 				
 				h0 = '<span class="color_f27c32">'+(parseFloat(v.orderMoney).toFixed(2))+'</span>元';
 				h1 = (+v.shouldPayMoney).toFixed(2)+"元";
 				
 				h2 = '-'+(((v.goodsDiscountMoney==''?0:parseFloat(v.goodsDiscountMoney))+(v.vipMoney==''?0:parseFloat(v.vipMoney))+(v.offMoney == '' ? 0: parseFloat(v.offMoney))+(v.coupons.couponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.couponInfo.couponMoney))+(v.coupons.goodCouponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.goodCouponInfo.couponMoney))+(v.coupons.typeCouponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.typeCouponInfo.couponMoney)))).toFixed(2);
-				
+				h4 = '-'+(((v.coupons.couponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.couponInfo.couponMoney))+(v.coupons.goodCouponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.goodCouponInfo.couponMoney))+(v.coupons.typeCouponInfo.couponMoney == '' ? 0: parseFloat(v.coupons.typeCouponInfo.couponMoney)))).toFixed(2);
 				if ((v.orderStatus == 3 && v.isGoToPay == 1) || v.orderStatus=='4') {
 					h3 = (parseFloat(v.realPayMoney)).toFixed(2)+'元';
 				}else{
-					h3 = ((parseFloat(v.realPayMoney)+parseFloat(h2))).toFixed(2)+'元';
+					h3 = ((parseFloat(v.realPayMoney)+parseFloat(h4))).toFixed(2)+'元';
 				}
 				h2 = h2+'元';
 				if (v.orderStatus=='1') {
@@ -817,7 +817,6 @@ $(document).ready(function(){
 							}
 						}
 					} else{
-						console.log(v)
 						var couponInfo = coupons.couponInfo,
 							goodCoupon = coupons.goodCouponInfo,
 							typeCoupon = coupons.typeCouponInfo;
@@ -834,7 +833,11 @@ $(document).ready(function(){
 								couponMoney = v.couponMoney,
 								$ele = $(sel);
 							if (w.orderStatus == 3 && w.isGoToPay == 1) {
-								$ele.find('.order_details_coupon dd').html("已绑定：-0.0元")
+								if(couponMoney){
+									$ele.find('.order_details_coupon dd').html("已绑定：-"+couponMoney+"元")
+								}else{
+									$ele.find('.order_details_coupon dd').html("已绑定：-0.0元")									
+								}
 							}else{
 								if (useable && useable.length !=0 ) {
 									if (selectId) {

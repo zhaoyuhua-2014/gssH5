@@ -54,7 +54,7 @@
 						<div class="vip_main_icon_tit cont_tit" :class="{'noactive':isActive}">VIP特权</div>
 						<div class="vip_main_icon_boxs clearfloat">
 							<dl class="float_left" v-for="(item,index) in vipPrivilege" @click="goToNext(item)">
-								<dt><img :src="item.status > 0 ? item.onLogo : item.offLogo"/></dt>
+								<dt><img :src="item.state == 1 ? item.onLogo : item.offLogo"/></dt>
 								<dd v-text="item.name"></dd>
 							</dl>
 						</div>
@@ -125,7 +125,7 @@
 	<script src="../quote/mdData.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../quote/layer.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/common.js?v=20180929" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/vip.js?v=20180929" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/vip.js?v=20180930" type="text/javascript" charset="utf-8"></script>
 	<!-- endbuild -->
 	
 	
