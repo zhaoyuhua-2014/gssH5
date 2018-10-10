@@ -23,6 +23,7 @@ $(document).ready(function(){
 			coupon : ['',"quan_c","quan_b","quan_a"]
 		},
 		code:null,
+		textList:['','单笔订单实付满','单品订单实付满','单类订单实付满']
 	})
 	//ajax公用参数
 	pub.publicParameter = {
@@ -88,7 +89,7 @@ $(document).ready(function(){
 			var v = data.data;
 			$('#business_shop_name').val(v.firmName);
 			$('#business_shop_id').val('NO.'+v.id);
-			$('#business_shop_score').val(v.score);
+			$('#business_shop_score').val(v.exp);
 			$('#business_shop_grade').val(v.userGrade);
 			$('#business_shop_address').val(v.address);
 			$('#business_shop_card').val(v.saleCard);
@@ -230,7 +231,7 @@ $(document).ready(function(){
     			html+='			<div class="coupon_state"></div>'
     			html+='		</div>'
 	    		html+='		<div class="coupon_time">有效期至：'+data.data[i].endTime+'</div>'
-	    		html+='		<div class="coupon_money">金额要求：单个订单大于'+data.data[i].leastOrderMoney+'元</div>'
+	    		html+='		<div class="coupon_money">金额要求：'+pub.textList[data.data[i].type]+data.data[i].leastOrderMoney+'元</div>'
 	    		html+='		<div class="coupon_come">来源：'+data.data[i].sendMethod+'</div>'
 	    		html+='	</dd>'
 	    		html+='</dl>'		    		
@@ -287,7 +288,7 @@ $(document).ready(function(){
 	    		html+='			<div class="coupon_name">'+v[i].mouldName+'</div>'
     			html+='		</div>'
 	    		html+='		<div class="coupon_time">有效期：'+v[i].realDays+'天</div>'
-	    		html+='		<div class="coupon_money">金额要求：'+v[i].leastOrderMoney+'元</div>'
+	    		html+='		<div class="coupon_money">实付金额满：'+v[i].leastOrderMoney+'元</div>'
 	    		html+='		<div class="coupon_come">来源：在线领取优惠券</div>'
 	    		html+='	</dd>'
 	    		if(v[i].onOff){

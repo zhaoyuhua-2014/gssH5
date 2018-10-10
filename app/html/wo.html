@@ -8,8 +8,8 @@
     	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' http://app.guoss.cn/gss_api/server/api.do http://61.164.113.187:8090/gssapi/server/api.do; style-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
 		
     	<!-- build:css ../css/common.css -->
-	    <link rel="stylesheet" type="text/css" href="../css/rest.css?v=0927"/>
-	    <link rel="stylesheet" type="text/css" href="../css/base.css?v=0927"/>
+	    <link rel="stylesheet" type="text/css" href="../css/rest.css?v=20181010"/>
+	    <link rel="stylesheet" type="text/css" href="../css/base.css?v=20181010"/>
 	    <!-- /build -->
 		<title>我</title>
 	</head>
@@ -64,7 +64,7 @@
 						<dl class="wo_top_info clearfloat" v-show="logined && userVipInfo.vip">
 							<dt class="float_left">
 								<img v-show="userInfo.faceImgUrl" class="user_faceImg" :src="'http://'+userInfo.faceImgUrl"/>
-								<input class="login_type1 hidden" type="file" accept="image/*" name="" id="file" value="" />
+								<input class="login_type1 " type="file" accept="image/*" name="" id="file" value="" />
 							</dt>
 							<dd class="float_left" :class="{'active':userVipInfo.vip > 0}">
 								<p class="top"><span class="user_name ellipsis" v-text="userInfo.firmName"></span> <span class="user_vip_icon" :class="'vip'+userVipInfo.vipGrade" data-url = 'vip.html' @click="goToNext" ></span> <span class="user_vip_msg" v-text="'上个月成长值为'+userVipInfo.lastMonthExp"></span></p>
@@ -87,13 +87,13 @@
 						</div>
 					</div>
 					<div  v-cloak class="cont cont1 clearfloat">
-					  	<dl class="float_left vip" data-url = 'vip.html' @click="goToNext">
+					  	<dl class="float_left " data-url = 'vip.html' @click="goToNext">
 					  		<dt><b>VIP</b></dt>
 					  		<dd>服务</dd>
 					  	</dl>
 					  	<dl class="float_left" data-url = 'coupon_management.html' @click="goToNext">
 					  		<dt><b v-text='userVipInfo.coupons || 0'></b><span>张</span></dt>
-					  		<dd>优惠卷</dd>
+					  		<dd>优惠券</dd>
 					  	</dl>
 					  	<dl class="float_left" data-url = 'score.html'  @click="goToNext">
 					  		<dt><b v-text='userVipInfo.surplusScore || 0'></b><span>个</span></dt>

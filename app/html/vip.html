@@ -24,7 +24,7 @@
 				<div class="vip_main_top" v-show="userVipInfo.monthExp">
 					<div class="vip_main_growValue" >
 						<div class="vip_growValue_top">
-							<span class="vip_growValue_tit">当月成长值</span><span class="vip_growValue_desc" v-text="'当月成长值为'+userVipInfo.firmMonthExp+',再积'+userVipInfo.needExp+'成长值可享受下个月VIP优惠'"></span>
+							<span class="vip_growValue_tit">当月成长值</span><span class="vip_growValue_desc" v-text="'当月成长值为'+userVipInfo.firmMonthExp+'点,再积'+userVipInfo.needExp+'点可享受下个月VIP服务'"></span>
 						</div>
 						<div class="vip_growValue_progress">
 							<p class="growInfo_progressAll"></p>
@@ -37,12 +37,12 @@
 					</div>
 					<div class="vip_main_growValue vip_grow_all" :class="{'active':userVipInfo.vip >0}" v-show="userVipInfo.monthExp">
 						<div class="vip_growValue_top">
-							<span class="vip_growValue_tit" v-text="userVipInfo.vipGrade"></span><span class="vip_activation" v-text="userVipInfo.vip > 0 ? '已激活' : '未激活'"></span> <span class="vip_growValue_desc" v-text="'累积成长值为'+userVipInfo.firmExp+'，还差'+userVipInfo.upExp+'点到下一等级'" ></span>
+							<span class="vip_growValue_tit" ></span><span class="vip_activation" v-text="userVipInfo.vip > 0 ? '已激活' : '未激活'"></span> <span class="vip_growValue_desc" v-text="'累积成长值为'+userVipInfo.firmExp+'点，还差'+userVipInfo.upExp+'点到下一等级'" ></span>
 						</div>
 						<div class="vip_prowValue_grade_box clearfloat">
 							<div class="float_left" v-for = "(item,index) in vipGradeList">
 								<dl :class="['grade'+(index+1),{'active':userVipInfo.vipGrade >= (index+1)}]" >
-									<dt></dt><dd v-text="'成长值满'+item.end+'点'"></dd>
+									<dt></dt><dd v-text="'成长值满'+item.start+'点'"></dd>
 								</dl>
 								<div class="line_box" :class="[{'active':userVipInfo.vipGrade >= (index+1)},{'active1':userVipInfo.vipGrade >= (index+2)}]"></div>
 							</div>
@@ -67,7 +67,7 @@
 								1.VIP享受条件
 							</div>
 							<div class="vip_main_introduce_content">
-								<p>当月成长值达到<span v-text="system.month_exp"></span>点，可享受下个月相应等级VIP会员服务，<b>有效期一个月</b></p>
+								<p>当月成长值达到<span v-text="system.month_exp"></span>点，享受下月相应等级VIP会员服务，<b>有效期一个月</b></p>
 							</div>
 						</div>
 						<div class="vip_main_introduce_item">
@@ -75,23 +75,23 @@
 								2.VIP会员成长值
 							</div>
 							<div class="vip_main_introduce_content">
-								<p>VIP成长值是基于用户一定时期内使用果速送业务下单的实付款额、下单频次以及合作效果决定的，用户达到相应的成长值享受VIP会员以及提高VIP等级。</p>
-								<p class="formula">当月成长值=实付款成长值+下单频次成长值-不良合作下降值</p>
+								<p>VIP成长值是基于用户一定时期内使用果速送平台的下单实付金额、下单频次以及合作情况决定；用户达到相应的成长值享受VIP服务以及提升VIP等级</p>
+								<p class="formula">当月成长值=实付金额成长值+下单频次成长值+不良记录下降值</p>
 								<div class="table">
 									<div class="table_tr clearfloat">
-										<div class="table_td">成长值</div>
-										<div class="table_td">实付款<span v-text="system.exp_of_pay_money"></span>元=1点</div>
+										<div class="table_td">实付金额成长值</div>
+										<div class="table_td">实付金额<span v-text="system.exp_of_pay_money"></span>元=1点</div>
 									</div>
 									<div class="table_tr clearfloat">
 										<div class="table_td">下单频次成长值（每日）</div>
-										<div class="table_td">下单<span v-text="system.order_add_exp"></span>点/次，没有下单-<span v-text="system.order_ueduce_exp"></span>点/次</div>
+										<div class="table_td">下单=<span v-text="system.order_add_exp"></span>点/次，未下单= -<span v-text="system.order_ueduce_exp"></span>点/次</div>
 									</div>
 									<div class="table_tr clearfloat">
 										<div class="table_td">不良记录下降值</div>
-										<div class="table_td">逾期付款（隔夜）<span v-text="system.two_night_not_pay"></span>点/次</div>
+										<div class="table_td">逾期付款（隔夜）= -<span v-text="system.two_night_not_pay"></span>点/次</div>
 									</div>
 								</div>
-								<p class="notes">注：逾期欠款（隔夜）一个月三次以上，无理由退货一个月三次以上，取消其VIP资格（以月做统计核实）</p>
+								<p class="notes">注：一个月三次以上逾期付款(隔夜)或无理由退货，取消其下月VIP资格</p>
 							</div>
 						</div>
 						<div class="vip_main_introduce_item">
@@ -99,15 +99,15 @@
 								3.VIP等级
 							</div>
 							<div class="vip_main_introduce_content">
-								<p>VIP等级是所有月份累积成长值，达到相应标准即可升级，一旦升级，<b>一年内有效。</b>如果一年内没有升级（至少一个等级），次年将降级。</p>
+								<p>VIP等级是所有月份累积的成长值，达到相应标准即可升级；一旦升级，<b>一年内有效；</b>如果一年内没有升级，次年将降一级（保留等级最低值）</p>
 								<div class="table">
 									<div class="table_tr clearfloat">
 										<div class="table_td">等级</div>
 										<div class="table_td">相应累积成长值</div>
 									</div>
 									<div class="table_tr clearfloat" v-for="(item,index) in vipGradeList">
-										<div class="table_td" v-text="'VIP'+item.grade"></div>
-										<div class="table_td" v-text="item.end"></div>
+										<div class="table_td" v-text="item.name"></div>
+										<div class="table_td" v-text="item.start+'点'"></div>
 									</div>
 								</div>
 							</div>

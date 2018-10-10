@@ -302,6 +302,7 @@ $(document).ready(function(){
 		},
 		getLinkUrl : function (type,code,tit){
 			code = code.trim();
+			console.log(type)
 			if (type) {
 				if (type == 1) {
 					var codeArr = code.split("&");
@@ -311,7 +312,24 @@ $(document).ready(function(){
 				}else if (type == 3) {
 					return pub.add + "details.html?linUrl="+code + "&title="+tit;
 				}else if(type == 4){
-					return pub.add + "online_coupon.html";
+					if (pub.logined) {
+						return pub.add + "online_coupon.html";
+					}else{
+						return pub.add + "login.html";
+					}
+				}else if (type == 5){
+					if (pub.logined) {
+						return pub.add + "vip_ticket_center.html?type="+code;
+					}else{
+						return pub.add + "login.html";
+					}
+				}else if (type == 6){
+					if (pub.logined) {
+						return pub.add + "vip.html";
+					}else{
+						return pub.add + "login.html";
+					}
+					
 				}
 			}
 			return null;

@@ -1579,6 +1579,7 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
 .wo_top_info dd p.top span{float: left;}
 .wo_top_info dd .user_name {font-size: 36px;line-height: 52px;padding-right: 16px;max-width: 200px;display: inline-block}
 .wo_top_info dd .user_vip_icon {display: inline-block;width: 98px;height: 34px;border-radius: 17px;margin-right: 8px;position: relative;top: 9px;}
+.wo_top_info dd .user_vip_icon.vip0{background: url(../img/icon_vip0.png) no-repeat center;}
 .wo_top_info dd .user_vip_icon.vip1{background: url(../img/icon_vip1.png) no-repeat center;}
 .wo_top_info dd .user_vip_icon.vip2{background: url(../img/icon_vip2.png) no-repeat center;}
 .wo_top_info dd .user_vip_icon.vip3{background: url(../img/icon_vip3.png) no-repeat center;}
@@ -1594,7 +1595,7 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
 .wo_top_info dd.active .user_vip_msg{display: none;}
 .wo_top_info dd .user_phone{font-size: 24px;line-height: 40px;}
 
-.wo_top_info #file {width: 100px;height: 100px;position: absolute;opacity: 0;filter: alpha(opacity=0);display: none;top: 0;left: 0;right: 0;bottom: 0;}
+.wo_top_info #file {width: 100px;height: 100px;position: absolute;opacity: 0;filter: alpha(opacity=0);top: 0;left: 0;right: 0;bottom: 0;}
 
 .wo_top_info .my_details{width: 50px;height: 100%;background: url(../img/icon_arrow_while.png) no-repeat right center;padding-left: 0;}
 

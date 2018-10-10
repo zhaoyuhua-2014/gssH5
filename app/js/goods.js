@@ -903,7 +903,7 @@ $(document).ready(function(){
 			//展示商品信息1111111111111
 			pub.html = ''
 			if (v.vipGrade > 0) {
-				pub.html +='<h3 class="goodsDetails_box1_title vip'+v.vipGrade+'">'+v.goodsName+'</h3>'
+				pub.html +='<h3 class="goodsDetails_box1_title vip vip'+v.vipGrade+'">'+v.goodsName+'</h3>'
 			}else{
 				pub.html +='<h3 class="goodsDetails_box1_title">'+v.goodsName+'</h3>'
 			}
@@ -1073,6 +1073,15 @@ $(document).ready(function(){
 					window.history.back();
 				}
 				
+			})
+			//var st = '.goodsDetails_box1_title.vip1' || '.goodsDetails_box1_title.vip2' || '.goodsDetails_box1_title.vip3'  || '.goodsDetails_box1_title.vip4';
+			$(".goodsDetails_box1_top").on("click",'.goodsDetails_box1_title.vip',function(e){
+				
+				if (pub.logined) {
+					common.jump("vip.html")
+				}else{
+					common.jump('login.html');
+				}
 			})
 		}
 	}

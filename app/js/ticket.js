@@ -83,6 +83,7 @@ $(document).ready(function(){
 		String state;//1 --可领取  2--已经领取  3--不能领取  4 --等级不够
 		String websiteName;//所属站点名称
 		String goodsName;//商品名称*/
+		textList:['','单笔订单实付满：','单品订单实付满：','单类订单实付满：']
 	};
 	
 	
@@ -95,7 +96,8 @@ $(document).ready(function(){
 				type:'',
 				name:'',
 				list:[],
-			}
+			},
+			textList:moduleData.textList
 		},
         beforeCreate : function(){
         	
