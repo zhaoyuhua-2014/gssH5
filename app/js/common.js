@@ -324,6 +324,7 @@ var common={
 	},
 	alert_show:function(data){
 		var html='';
+		html +='<div class="my_bg show"></div>'
 		html +='<div id="logistic_show">'
 		html +='	<div class="logistic_show_header">'
 		html +='		<h3 class="logistic_show_title">'+data.data.title+'</h3>'
@@ -334,7 +335,7 @@ var common={
 		html +='	</div>'
 		html +='	<div class="logistic_show_footer">by:果速送平台</div>'
 		html +='</div>'
-		html +='<div class="my_bg show"></div>'
+		
 		$('body').append(html);
 		common.mshow = $("#logistic_show");
 		common.mbg = $(".my_bg");
