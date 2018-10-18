@@ -1,5 +1,5 @@
 $(document).ready(function(){
-// 命名空间
+	// 命名空间
 	pub = {};
 	
 	//检测goodsId的合法性
@@ -339,7 +339,6 @@ $(document).ready(function(){
 	pub.moregoods = {
 		init:function(){
 			pub.moregoods.UrlCode = common.getUrlParam('typeCode') ? isNaN(+common.getUrlParam("typeCode")) ? null : common.getUrlParam("typeCode").length ==4 ? common.getUrlParam("typeCode") : '' : null ;
-//			console.log(pub.moregoods.UrlCode);
 			pub.moregoods.firstapi();
 			pub.moregoods.eventHeadle.init();
 			pub.style_change();
@@ -458,7 +457,7 @@ $(document).ready(function(){
 					}
 					if(!pub.threeTypecode){
 						$(".moreGoods_box_list_class")[0].innerHTML = html
-						let $ele=$(".moreGoods_box_list_class li").eq(n);
+						var $ele=$(".moreGoods_box_list_class li").eq(n);
 						pub.threeTypecode=$ele.attr("three_list_data"+n);
 						$ele.addClass("active")
 					}
@@ -501,24 +500,7 @@ $(document).ready(function(){
 					
 					html2 +='</p>'
 					html2 +='<div class="moreGoods_goods_num">'
-					/*if (v[i].vipGrade > 0) {
-						
-		            }else{
-		            	html2 +='<div class="moreGoods_goods_icon">'
-							if (v[i].isSale) {
-								html2 +=' <span class = "icon_cu"></span>'
-							}
-							if (v[i].isNew) {
-								html2 +=' <span class = "icon_ji"></span>'
-							}
-							if (v[i].isRecommend) {
-								html2 +=' <span class = "icon_jian"></span>'
-							}
-							if (v[i].isHot) {
-								html2 +=' <span class = "icon_re"></span>'
-							}
-						html2 +='</div>'
-		            }*/
+					
 					html2 +='<div class="moreGoods_goods_icon">'
 						if (v[i].isSale) {
 							html2 +=' <span class = "icon_cu"></span>'
@@ -598,7 +580,6 @@ $(document).ready(function(){
 					$(this).addClass('true').siblings().removeClass("true");
 					pub.twoTypecode = $(this).attr("first_list_data"+$(this).index());
 					sessionStorage.setItem("twotype",pub.twoTypecode);
-					console.log($.isEmptyObject($(this).data()))
 					
 					if ($.isEmptyObject($(this).data())) {
 					
@@ -707,18 +688,15 @@ $(document).ready(function(){
 			$(".moreGoods_box_list_class").on("click","li",function(){
 				var $ele = $(this);
 				if(!$ele.is('.active')){
-//					pub.pageNo = 1;
 					$(this).addClass('active').siblings().removeClass("active")
 					pub.threeTypecode = $(this).attr("three_list_data"+$(this).index());
 					sessionStorage.setItem("threeTypecode",pub.threeTypecode);
 					if ($.isEmptyObject($(this).data())) {
-							pub.moregoods.goodsapi($ele);
-						}else{
-							pub.moregoods.goods_show($(this).data());
-						}
-						
+						pub.moregoods.goodsapi($ele);
+					}else{
+						pub.moregoods.goods_show($(this).data());
+					}
 				}	
-				
 			})
 		}
 	}
@@ -1357,10 +1335,6 @@ $(document).ready(function(){
 						html +='					    </button>'
 					}
 	            }
-	            
-				
-				
-				
 				html +='					</div>'
 				html +='				</div>'
 	            html +='            </dd>'
@@ -1475,8 +1449,6 @@ $(document).ready(function(){
 			common.callback($(".header_left"));
 		}
 	}
-	
-	
 	
 	pub.init = function(){
 		pub.page = $("body").attr("data");
