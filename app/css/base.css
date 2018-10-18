@@ -1786,3 +1786,31 @@ body .layui-m-layer .layui-m-layer-msg{width:auto;max-width:90%;margin:0 auto;bo
 	height: auto;line-height: 40px;padding: 8px 0;
 }
 .goodsDetails_box1_center del{color: #999999;}
+/*三级菜单*/
+.moreGoods_box_list_class {
+	display: flex;
+	padding:20px 20px 20px 0px;
+	font-size: 30px;
+	text-align: center;
+	flex-wrap: wrap;
+	
+}
+.moreGoods_box_list_class li{
+	padding: 8px 20px;
+	height: 60px;
+	margin-left: 30px;
+	margin-bottom: 30px;
+	line-height:42px ;
+	border:1px solid #999;
+	border-radius: 8px;
+}
+/*.moreGoods_box_list_class li + li{
+	
+}*/
+.moreGoods_box_list_class .active{
+	border-color: rgb(234, 90, 42);
+    color: rgb(234, 90, 42);
+}
+.moreGoods_box_list{
+	position: relative;
+}

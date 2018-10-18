@@ -14,13 +14,14 @@ $(document).ready(function(){
 	$.extend(pub,{
 		html:'',
 		twoTypecode:(sessionStorage.getItem("twotype") == undefined ? '' : sessionStorage.getItem("twotype")),
+		threeTypecode:(sessionStorage.getItem("threetype") == undefined ? '' : sessionStorage.getItem("threetype")),
 		goodsTypecode:(sessionStorage.getItem("goodtype") == undefined ? '' : sessionStorage.getItem("goodtype")),
 		websiteNode:common.websiteNode,
 		isLast:false,
 		pageSize:common.pageSize,
 		pageNo:common.pageNo,
 		logined : common.getIslogin(),
-		method:['goods_first_type',"goods_second_type",'goods_info_show_thr','goods_collection_del','goods_collection_add'],
+		method:['goods_first_type',"goods_second_type",'goods_info_show_fou','goods_collection_del','goods_collection_add'],
 		issystem:sessionStorage.getItem("system"),
 		goodsId: isGoodsId(common.getUrlParam("goodsId")) || sessionStorage.getItem("goodsId"),
 		isColl:null,
@@ -375,7 +376,8 @@ $(document).ready(function(){
 				websiteNode:pub.websiteNode,
 				typeCode:pub.goodsTypecode,
 				pageNo:pub.pageNo,
-				pageSize:pub.pageSize
+				pageSize:pub.pageSize,
+				eyeId:pub.threeTypecode
 			},function(data){
 				if (data.statusCode == 100000) {
 					if (pub.pageNo == 1) {
@@ -389,7 +391,7 @@ $(document).ready(function(){
 			})
 		},
 		first_list:function(data){
-			
+//			console.log(pub.moregoods.UrlCode);
 			var html='',v = data.data,n=0;
 			for (var i in v) {
 				if (pub.moregoods.UrlCode &&  pub.moregoods.UrlCode.substr(0,2) == v[i].typeCode) {
@@ -436,13 +438,38 @@ $(document).ready(function(){
 			pub.moregoods.goodsapi($ele);
 		},
 		goods_show:function(data){
-			pub.isLast=data.data.isLast;
+			pub.isLast=data.data.page.isLast;
 			if (pub.pageNo=='1') {
 				$('.moreGoods_box_list').find('li').remove();
 			}
 			pub.isLast && $('.lodemore').html('没有更多数据了');
 			!pub.isLast && $('.lodemore').html('点击加载更多数据');
-			var html2='',v = data.data.objects,goodnum;
+			/*
+			 * 三级菜单
+			 */
+			var html='',v1 = data.data.gtes,n=0;
+				if(v1.length){
+					$(".moreGoods_box_list_class").show();
+					for (var i in v1) {
+						if (pub.moregoods.UrlCode == v1[i].id) {
+							n = i;
+						}
+						html +='<li three_list_data'+i+'="'+v1[i].id+'">'+v1[i].name+'</li>'
+					}
+					if(!pub.threeTypecode){
+						$(".moreGoods_box_list_class")[0].innerHTML = html
+						let $ele=$(".moreGoods_box_list_class li").eq(n);
+						pub.threeTypecode=$ele.attr("three_list_data"+n);
+						$ele.addClass("active")
+					}
+				}else{
+					$(".moreGoods_box_list_class").hide();
+				}
+				
+			/*
+			 * 商品展示
+			 */
+			var html2='',v = data.data.page.objects,goodnum;
 			moregood_data=sessionStorage.setItem('moregood_data',JSON.stringify(data));
 			for (var i in v) {
 				html2 +='<li><dl class="moreGoods_goods_detaile clearfloat" data="'+v[i].id+'" dataName="'+v[i].goodsName+'" dataPir="'+v[i].wholeGssPrice+'" wholePriceSize="'+v[i].wholePriceSize+'" gssPrice="'+v[i].gssPrice+'" priceUnit="'+v[i].priceUnit+'" packageNum="'+(parseInt(v[i].initNum) - parseInt(v[i].saleNum))+'" maxCount="'+v[i].maxCount+'" bussinessType="'+v[i].bussinessType+'" score="'+v[i].score+'" >'
@@ -565,14 +592,19 @@ $(document).ready(function(){
 		init:function(){
 			$(".moreDoogs_main_top").on("click",".moreDoogs_main_top_list li",function(){
 				var $ele = $(this);
-				if (!$(this).is("true")) {
+				pub.threeTypecode = "";
+				if (!$ele.is(".true")) {
 					pub.pageNo = 1;
 					$(this).addClass('true').siblings().removeClass("true");
 					pub.twoTypecode = $(this).attr("first_list_data"+$(this).index());
 					sessionStorage.setItem("twotype",pub.twoTypecode);
+					console.log($.isEmptyObject($(this).data()))
+					
 					if ($.isEmptyObject($(this).data())) {
+					
 						pub.moregoods.twoapi($ele);
 					}else{
+						
 						pub.moregoods.two_list($(this).data());
 					}
 					if ($(this).get(0).offsetLeft > 200) {
@@ -580,11 +612,14 @@ $(document).ready(function(){
 					}else{
 						$('.moreDoogs_main_top').scrollLeft(0)
 					}
+					
 				}
+				
 			});
 			$(".moreDoogs_main_box_left").on("click","li",function(){
 				var $ele = $(this);
-				if (!$(this).is("true")) {
+				pub.threeTypecode = "";
+				if (!$(this).is(".true")) {
 					pub.pageNo = 1;
 					$(this).addClass('true').siblings().removeClass("true");
 					pub.goodsTypecode = $(this).attr("two_list_data"+$(this).index());
@@ -599,6 +634,7 @@ $(document).ready(function(){
 					}else{
 						$('.moreDoogs_main_box_left_wrap').scrollTop(0)
 					}
+					$('.moreDoogs_main_box_right').scrollTop(0)
 				}
 			});
 			$(".moreGoods_box_list").on("click",".moreGoods_goods_detaile",function(){
@@ -666,6 +702,23 @@ $(document).ready(function(){
 			});
 			$(".header_left").on("click",function(){
 				common.jump("../index.html")
+			})
+			//三级菜单点击事件
+			$(".moreGoods_box_list_class").on("click","li",function(){
+				var $ele = $(this);
+				if(!$ele.is('.active')){
+//					pub.pageNo = 1;
+					$(this).addClass('active').siblings().removeClass("active")
+					pub.threeTypecode = $(this).attr("three_list_data"+$(this).index());
+					sessionStorage.setItem("threeTypecode",pub.threeTypecode);
+					if ($.isEmptyObject($(this).data())) {
+							pub.moregoods.goodsapi($ele);
+						}else{
+							pub.moregoods.goods_show($(this).data());
+						}
+						
+				}	
+				
 			})
 		}
 	}
